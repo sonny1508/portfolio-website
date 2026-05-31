@@ -34,6 +34,28 @@ jobs:
         with:
           fetch-depth: 0   # for .GitInfo / .Lastmod if we enable it
 
+      - name: Fetch private commercial fonts
+        # Clones sonny1508/sonny-fonts (private) into assets/fonts/ using a
+        # fine-grained PAT stored as FONTS_REPO_TOKEN. The fonts are licensed
+        # for use but not for public redistribution, so they live in a
+        # separate private repo rather than in this public one.
+        #
+        # If the secret is missing (e.g. fork), the step skips gracefully and
+        # the deploy proceeds with system font fallbacks.
+        env:
+          FONTS_TOKEN: ${{ secrets.FONTS_REPO_TOKEN }}
+        run: |
+          if [ -z "$FONTS_TOKEN" ]; then
+            echo "::warning::FONTS_REPO_TOKEN not set — building without commercial fonts."
+            exit 0
+          fi
+          echo "Cloning private fonts repo..."
+          git clone --depth=1 \
+            "https://x-access-token:${FONTS_TOKEN}@github.com/sonny1508/sonny-fonts.git" \
+            assets/fonts
+          echo "Fonts in place:"
+          ls -la assets/fonts/
+
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
