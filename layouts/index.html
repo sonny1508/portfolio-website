@@ -1,0 +1,25 @@
+{{ define "main" }}
+{{- /* Home page — single-page main site.
+       Each section partial is a stub for now; real UI lands in the components phase.
+       Color rhythm: cream → cream → purple → cream → purple. */ -}}
+
+<section id="profile" data-mode="cream" data-section>
+  {{ partial "sections/profile.html" . }}
+</section>
+
+<section id="projects" data-mode="cream" data-section>
+  {{ partial "sections/projects.html" . }}
+</section>
+
+<section id="experience" data-mode="purple" data-section>
+  {{ partial "sections/experience.html" . }}
+</section>
+
+<section id="skills" data-mode="cream" data-section>
+  {{ partial "sections/skills.html" . }}
+</section>
+
+<section id="contact" data-mode="purple" data-section>
+  {{ partial "sections/contact.html" . }}
+</section>
+{{ end }}

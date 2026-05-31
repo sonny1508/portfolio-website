@@ -1,0 +1,63 @@
+baseURL = "https://example.com/"
+locale = "en-us"
+title = "Sonny Nguyen"
+enableRobotsTXT = true
+enableGitInfo = false
+
+# tags + category live as plain front-matter fields, not taxonomies.
+# Disabling taxonomy/term/RSS keeps /tags/ and /categories/ from being generated.
+disableKinds = ["taxonomy", "term", "RSS"]
+ignoreLogs = ["warning-goldmark-raw-html"]
+
+# Single-page main site; project detail pages live under /projects/
+[pagination]
+  pagerSize = 4
+  path = "page"
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+
+[params]
+  description = "Sonny Nguyen — game developer, infrastructure engineer, tools programmer."
+  # OG/Twitter card defaults — override per-page via front matter
+  ogImage = "/og-default.png"
+  twitter = ""
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML"]
+  page = ["HTML"]
+
+# Page bundle resources (images, mp4) are accessed via .Resources
+[imaging]
+  resampleFilter = "Lanczos"
+  quality = 85
+  anchor = "Smart"
+
+# Mount assets/fonts at /fonts/ so @font-face URLs resolve.
+# Source stays under assets/ so we can later pipe through resources.Fingerprint.
+[module]
+  [[module.mounts]]
+    source = "assets"
+    target = "assets"
+  [[module.mounts]]
+    source = "assets/fonts"
+    target = "static/fonts"
+  [[module.mounts]]
+    source = "content"
+    target = "content"
+  [[module.mounts]]
+    source = "data"
+    target = "data"
+  [[module.mounts]]
+    source = "layouts"
+    target = "layouts"
+  [[module.mounts]]
+    source = "static"
+    target = "static"
+  [[module.mounts]]
+    source = "archetypes"
+    target = "archetypes"

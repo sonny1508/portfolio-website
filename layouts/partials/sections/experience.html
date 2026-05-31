@@ -1,0 +1,28 @@
+{{- /* Experience section stub — two-column layout lands in the UI phase. */ -}}
+{{- $exp := hugo.Data.experience -}}
+<div class="container experience">
+  <p class="section-label">{{ hugo.Data.site.section_labels.experience }}</p>
+
+  <div class="experience__columns">
+    <div class="experience__col">
+      <h3 class="col-title">Professional</h3>
+      {{ range $exp.professional }}
+        <article class="exp-item">
+          <h4 class="display">{{ .title }}</h4>
+          <p class="exp-meta">{{ .start }} — {{ .end }} · {{ .organization }} · {{ .location }}</p>
+          <p>{{ .description }}</p>
+        </article>
+      {{ end }}
+    </div>
+    <div class="experience__col">
+      <h3 class="col-title">Education</h3>
+      {{ range $exp.education }}
+        <article class="exp-item">
+          <h4 class="display">{{ .title }}</h4>
+          <p class="exp-meta">{{ .start }} — {{ .end }} · {{ .organization }} · {{ .location }}</p>
+          <p>{{ .description }}</p>
+        </article>
+      {{ end }}
+    </div>
+  </div>
+</div>

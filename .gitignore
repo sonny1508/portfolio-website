@@ -1,0 +1,29 @@
+# Hugo build output
+/public/
+/resources/
+.hugo_build.lock
+
+# Commercial fonts — licensed for personal use, not for redistribution
+# via a public repo. Keep source files local; deployed site falls back
+# to system fonts via the font-family stack in tokens.css.
+# Remove these lines if your repo is private AND your font licenses
+# permit redistribution.
+/assets/fonts/Degular/
+/assets/fonts/Mrs Eaves XL/
+
+# Local environment
+.env
+.env.local
+
+# OS junk
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Claude Code workspace
+.claude/

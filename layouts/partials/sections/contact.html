@@ -1,0 +1,28 @@
+{{- /* Contact section — center-aligned statement, email, social row.
+       Icons are inline SVG via the icons partial so they pick up
+       currentColor and flip on hover. */ -}}
+{{- $c := hugo.Data.site.contact -}}
+<div class="container contact">
+  <p class="section-label">{{ hugo.Data.site.section_labels.contact }}</p>
+  <h2 class="contact__statement">{{ $c.statement }}</h2>
+  <p class="contact__email">
+    <a href="mailto:{{ $c.email }}">{{ $c.email }}</a>
+  </p>
+  <ul class="contact__socials">
+    <li>
+      <a href="{{ $c.github }}" rel="noopener" target="_blank" aria-label="GitHub">
+        {{ partial "icons.html" (dict "name" "github" "size" 22) }}
+      </a>
+    </li>
+    <li>
+      <a href="{{ $c.linkedin }}" rel="noopener" target="_blank" aria-label="LinkedIn">
+        {{ partial "icons.html" (dict "name" "linkedin" "size" 22) }}
+      </a>
+    </li>
+    <li>
+      <a href="{{ $c.itch }}" rel="noopener" target="_blank" aria-label="itch.io">
+        {{ partial "icons.html" (dict "name" "itch" "size" 22) }}
+      </a>
+    </li>
+  </ul>
+</div>

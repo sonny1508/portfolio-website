@@ -1,0 +1,12 @@
+{{- /* JS bundle — js.Build (esbuild) resolves the ES module imports
+       in main.js into a single output file. */ -}}
+{{- $opts := dict
+  "minify"     hugo.IsProduction
+  "target"     "es2018"
+  "sourceMap"  (cond hugo.IsProduction "" "inline")
+-}}
+{{- $entry := resources.Get "js/main.js" | js.Build $opts -}}
+{{- if hugo.IsProduction -}}
+  {{- $entry = $entry | fingerprint -}}
+{{- end -}}
+<script defer src="{{ $entry.RelPermalink }}"{{ if hugo.IsProduction }} integrity="{{ $entry.Data.Integrity }}"{{ end }}></script>

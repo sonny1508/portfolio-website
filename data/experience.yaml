@@ -1,0 +1,24 @@
+# ============================================================
+# Experience section — two columns: professional + education.
+# Items render in array order. Use ISO YYYY-MM for sort consistency.
+# ============================================================
+
+professional:
+  - title:        "Example Role"
+    organization: "Example Studio"
+    location:     "Remote"
+    start:        "2024-01"
+    end:          "Present"
+    description:  >
+      One- or two-sentence summary of what you did, what shipped,
+      and what was novel about how you did it.
+
+education:
+  - title:        "B.S. Example Degree"
+    organization: "Example University"
+    location:     "City, Country"
+    start:        "2020-09"
+    end:          "2024-05"
+    description:  >
+      Brief note on focus area, capstone project, or notable
+      coursework — keep this short.

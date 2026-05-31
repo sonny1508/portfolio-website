@@ -1,0 +1,80 @@
+{{- /* Projects section: section label, title, tabs, paginated grid.
+       Cards without a cover.* file in their bundle render a 16:9 placeholder.
+       Tab + pagination behaviour is driven by assets/js/modules/projects.js. */ -}}
+{{- $site := hugo.Data.site -}}
+{{- $projects := where site.RegularPages "Section" "projects" -}}
+
+{{- /* Tab definitions: label + category key matched against project front matter */ -}}
+{{- $tabs := slice
+  (dict "label" "All"                "key" "all")
+  (dict "label" "Infrastructure"     "key" "infra")
+  (dict "label" "Pipeline & Tooling" "key" "tooling")
+  (dict "label" "Game Dev"           "key" "game")
+  (dict "label" "Technical Art"      "key" "art")
+-}}
+
+<div class="container projects" data-projects>
+  <p class="section-label" data-reveal>{{ $site.section_labels.projects }}</p>
+  <h2 class="section-title" data-reveal>Selected Work</h2>
+
+  <div class="tabs" role="tablist" data-projects-tabs data-reveal>
+    {{ range $i, $t := $tabs }}
+      <button class="tab{{ if eq $i 0 }} is-active{{ end }}"
+              type="button"
+              role="tab"
+              data-tab="{{ $t.key }}"
+              aria-selected="{{ if eq $i 0 }}true{{ else }}false{{ end }}">
+        {{ $t.label }}
+      </button>
+    {{ end }}
+  </div>
+
+  <div class="projects__frame" data-reveal>
+    <button class="page-btn page-btn--prev" type="button" aria-label="Previous page" data-page-prev>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="projects__grid" data-projects-grid>
+      {{ range $projects }}
+        {{- $cover := .Resources.GetMatch "cover.*" -}}
+        {{- $catKey := .Params.category | default "all" -}}
+        <a class="card"
+           href="{{ .RelPermalink }}"
+           data-card
+           data-category="{{ $catKey }}"
+           data-tags="{{ delimit .Params.tags " " | lower }}">
+          <div class="card__cover">
+            {{ if $cover }}
+              {{ if eq $cover.MediaType.SubType "mp4" }}
+                <video src="{{ $cover.RelPermalink }}" autoplay muted loop playsinline aria-hidden="true"></video>
+              {{ else }}
+                {{ $thumb := $cover.Fill "960x540 Smart" }}
+                <img src="{{ $thumb.RelPermalink }}" alt="" loading="lazy"
+                     width="{{ $thumb.Width }}" height="{{ $thumb.Height }}">
+              {{ end }}
+            {{ else }}
+              {{ partial "placeholder.html" (dict "kind" "cover" "label" .Title) }}
+            {{ end }}
+          </div>
+          <h3 class="card__title">{{ .Title }}</h3>
+          {{ with .Params.summary }}<p class="card__summary">{{ . }}</p>{{ end }}
+          {{ with .Params.tags }}
+            <ul class="tags card__tags">
+              {{ range . }}<li class="tag">{{ . }}</li>{{ end }}
+            </ul>
+          {{ end }}
+        </a>
+      {{ end }}
+    </div>
+
+    <button class="page-btn page-btn--next" type="button" aria-label="Next page" data-page-next>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <p class="page-indicator" data-page-indicator></p>
+</div>

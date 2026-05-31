@@ -1,0 +1,241 @@
+/* ============================================================
+   Project detail (article).
+   All content blocks share --article-column (880px) and centre
+   horizontally inside the outer container — addresses SPEC §Known Issue 1.
+   ============================================================ */
+
+.project {
+  padding-top: calc(var(--nav-height) + var(--space-12));
+  padding-bottom: var(--space-24);
+  position: relative;
+  z-index: 2;
+}
+
+/* Common article-column block spacing */
+.project > .article-column + .article-column { margin-top: var(--space-10); }
+
+/* ---- Back link ---- */
+.back-link {
+  font-size: var(--text-sm);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin: 0 0 var(--space-8);
+}
+.back-link a:hover { opacity: 0.6; }
+
+/* ---- Hero ---- */
+.project__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: var(--text-5xl);
+  line-height: 0.95;
+  margin: var(--space-4) 0 var(--space-6);
+}
+
+.project__lede {
+  font-style: italic;
+  font-size: var(--text-xl);
+  line-height: 1.4;
+  margin: 0 0 var(--space-8);
+  max-width: 60ch;
+}
+
+/* ---- Facts strip ---- */
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  border-top: 1px solid var(--color-line-on-cream);
+  padding-top: var(--space-5);
+  margin: var(--space-8) 0;
+}
+.fact { margin: 0; }
+.fact dt {
+  font-size: var(--text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: var(--space-1);
+}
+.fact dd {
+  margin: 0;
+  font-style: italic;
+  font-size: var(--text-base);
+}
+
+/* ---- Cover ---- */
+.cover img,
+.cover video,
+.cover .placeholder {
+  width: 100%;
+  display: block;
+  filter: drop-shadow(0 14px 30px rgba(36, 16, 64, 0.18));
+}
+
+/* ---- Prose ---- */
+.prose {
+  font-size: var(--text-lg);
+  line-height: 1.7;
+}
+.prose > * + * { margin-top: var(--space-5); }
+.prose h2 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: var(--text-2xl);
+  line-height: 1.15;
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-3);
+}
+.prose h3 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: var(--text-xl);
+  line-height: 1.2;
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-2);
+}
+.prose p { margin: 0 0 var(--space-5); }
+.prose a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.prose a:hover { opacity: 0.65; }
+
+.prose blockquote {
+  border-left: 3px solid var(--color-purple);
+  padding-left: var(--space-5);
+  margin: var(--space-6) 0;
+  font-style: italic;
+  font-size: var(--text-xl);
+  line-height: 1.5;
+}
+
+.prose ul, .prose ol {
+  padding-left: var(--space-6);
+}
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose li + li { margin-top: var(--space-2); }
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-tint-on-cream);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+.prose pre {
+  background: var(--color-purple);
+  color: var(--color-cream);
+  padding: var(--space-5);
+  border-radius: 6px;
+  font-size: var(--text-sm);
+  overflow-x: auto;
+}
+.prose pre code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* ---- Figures + video shortcodes ---- */
+.figure {
+  margin: var(--space-8) 0;
+}
+.figure img,
+.figure video {
+  width: 100%;
+  display: block;
+}
+.figure figcaption {
+  font-style: italic;
+  font-size: var(--text-sm);
+  opacity: 0.7;
+  margin-top: var(--space-2);
+  text-align: center;
+}
+
+/* Wide modifier — overflow article column width-wise.
+   We pin to article-column width by default; wide pushes past it
+   (still bounded by the outer container). */
+.figure--wide {
+  /* Expand beyond .article-column using viewport math */
+  margin-left: calc((100% - 100vw) / 2 + var(--container-pad));
+  margin-right: calc((100% - 100vw) / 2 + var(--container-pad));
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+/* 16:9 wrapper for YouTube iframes */
+.ratio-16x9 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+.ratio-16x9 > iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---- Article tags strip ---- */
+.article-tags {
+  border-top: 1px solid var(--color-line-on-cream);
+  padding-top: var(--space-6);
+  margin-top: var(--space-12);
+}
+
+/* ---- Prev/next footer nav ---- */
+.project-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  border-top: 1px solid var(--color-line-on-cream);
+  padding-top: var(--space-8);
+  margin-top: var(--space-10);
+}
+.project-nav__prev,
+.project-nav__next {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.project-nav__prev { text-align: left; }
+.project-nav__next { text-align: right; grid-column: 2; }
+.project-nav__prev:hover,
+.project-nav__next:hover { opacity: 0.7; }
+
+.project-nav__label {
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.project-nav__prev .display,
+.project-nav__next .display {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: var(--text-xl);
+  line-height: 1.15;
+}
+
+@media (max-width: 720px) {
+  .project-nav {
+    grid-template-columns: 1fr;
+  }
+  .project-nav__next {
+    text-align: left;
+    grid-column: 1;
+  }
+}

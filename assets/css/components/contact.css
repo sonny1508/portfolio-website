@@ -1,0 +1,69 @@
+/* ============================================================
+   Contact — purple section, center-aligned, no traditional footer.
+   ============================================================ */
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-6);
+}
+
+.contact .section-label {
+  justify-content: center;
+}
+.contact .section-label::before {
+  /* Drop the leading rule glyph when centered (it floats awkwardly otherwise) */
+  display: none;
+}
+
+.contact__statement {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: var(--text-4xl);
+  line-height: 1.05;
+  margin: 0;
+  max-width: 18ch;
+}
+
+.contact__email {
+  font-style: italic;
+  font-size: var(--text-2xl);
+  margin: 0;
+}
+.contact__email a {
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.1em;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.contact__email a:hover { opacity: 0.7; }
+
+/* ---- Social row ---- */
+.contact__socials {
+  display: flex;
+  gap: var(--space-4);
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+}
+.contact__socials a {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--color-line-on-purple);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.contact__socials a:hover {
+  background: var(--color-cream);
+  color: var(--color-purple);
+  border-color: var(--color-cream);
+}
+.contact__socials .icon {
+  display: block;
+}

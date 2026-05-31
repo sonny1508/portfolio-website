@@ -1,0 +1,11 @@
+{{- /* Placeholder block for missing media.
+       Usage:
+         {{ partial "placeholder.html" (dict "kind" "portrait" "label" "Portrait") }}
+         {{ partial "placeholder.html" (dict "kind" "cover" "label" "Sample Project") }}
+         {{ partial "placeholder.html" (dict "kind" "logo") }}
+       Kinds: portrait (3:4), cover (16:9), square. */ -}}
+{{- $kind := .kind | default "cover" -}}
+{{- $label := .label -}}
+<div class="placeholder placeholder--{{ $kind }}" role="img" aria-label="{{ $label | default (printf "%s placeholder" $kind) }}">
+  {{- with $label }}<span class="placeholder__label">{{ . }}</span>{{ end -}}
+</div>

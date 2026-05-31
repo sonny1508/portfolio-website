@@ -1,0 +1,70 @@
+{{ define "main" }}
+{{- /* Project detail stub — full editorial layout lands in the UI phase.
+       All blocks must share --article-column max-width and be horizontally centered
+       per SPEC §Known Issues. */ -}}
+<article class="project">
+  <div class="article-column">
+    <p class="back-link"><a href="/#projects">← Back to projects</a></p>
+    <p class="section-label">{{ .Params.category }} · Case Study</p>
+    <h1 class="display project__title">{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="project__lede">{{ . }}</p>{{ end }}
+
+    <dl class="facts">
+      {{ with .Params.role }}<div class="fact"><dt>Role</dt><dd>{{ . }}</dd></div>{{ end }}
+      {{ with .Params.stack }}<div class="fact"><dt>Stack</dt><dd>{{ . }}</dd></div>{{ end }}
+      {{ with .Params.period }}<div class="fact"><dt>Period</dt><dd>{{ . }}</dd></div>{{ end }}
+      {{ with .Params.status }}<div class="fact"><dt>Status</dt><dd>{{ . }}</dd></div>{{ end }}
+    </dl>
+  </div>
+
+  {{- /* Cover media — image or mp4 — full article-column width.
+         Renders a 16:9 placeholder when no cover.* exists in the bundle. */ -}}
+  {{- $cover := .Resources.GetMatch "cover.*" -}}
+  <div class="article-column cover">
+    {{- if $cover -}}
+      {{- if eq $cover.MediaType.SubType "mp4" -}}
+        <video src="{{ $cover.RelPermalink }}" autoplay muted loop playsinline></video>
+      {{- else -}}
+        {{- $img := $cover.Resize "1760x" -}}
+        <img src="{{ $img.RelPermalink }}" alt="" width="{{ $img.Width }}" height="{{ $img.Height }}">
+      {{- end -}}
+    {{- else -}}
+      {{ partial "placeholder.html" (dict "kind" "cover" "label" .Title) }}
+    {{- end -}}
+  </div>
+
+  <div class="article-column prose">
+    {{ .Content }}
+  </div>
+
+  {{- with .Params.tags -}}
+    <div class="article-column article-tags">
+      <ul class="tags">
+        {{ range . }}<li class="tag">{{ . }}</li>{{ end }}
+      </ul>
+    </div>
+  {{- end -}}
+
+  {{- /* Footer prev/next nav — resolves slugs from front matter */ -}}
+  <div class="article-column project-nav">
+    {{ with .Params.related_prev }}
+      {{ $p := site.GetPage (printf "projects/%s" .) }}
+      {{ with $p }}
+        <a class="project-nav__prev" href="{{ .RelPermalink }}">
+          <span class="project-nav__label">← Previous Project</span>
+          <span class="display">{{ .Title }}</span>
+        </a>
+      {{ end }}
+    {{ end }}
+    {{ with .Params.related_next }}
+      {{ $n := site.GetPage (printf "projects/%s" .) }}
+      {{ with $n }}
+        <a class="project-nav__next" href="{{ .RelPermalink }}">
+          <span class="project-nav__label">Next Project →</span>
+          <span class="display">{{ .Title }}</span>
+        </a>
+      {{ end }}
+    {{ end }}
+  </div>
+</article>
+{{ end }}

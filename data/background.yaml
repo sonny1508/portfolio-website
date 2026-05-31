@@ -1,0 +1,58 @@
+# ============================================================
+# Background knobs — orbs + grain.
+# Values become CSS custom properties on .bg-canvas / .orb-group
+# at render time, so this file is the single tuning surface.
+#
+# Rule from SPEC: each orb's pivot must sit on or beyond the
+# viewport edge — only the soft bloom should be visible inside
+# the content area.
+# ============================================================
+
+# ---- Orb intensity (gradient stops) ----
+# Each orb is a radial gradient. These knobs control how visible
+# it is — bump the *_center values to make the bloom more prominent.
+intensity:
+  light_center: 0.95    # alpha at very center of light orb (0–1)
+  light_mid:    0.50    # alpha at the mid-stop ring
+  dark_center:  0.70    # alpha at center of dark orb
+  dark_mid:     0.30    # alpha at the mid-stop ring
+  mid_stop:     45      # % of radius where the alpha "bend" sits
+  outer_stop:   78      # % of radius where the orb fully fades to 0
+
+# ---- Orb placements ----
+# Each entry maps to one .orb-group (light + dark variants stacked).
+# `intensity` per orb is optional — when present, overrides the globals
+# above for that orb only. Same keys as the global `intensity` block.
+orbs:
+  # Top-left, peeking in from the corner
+  - id: "orb-tl"
+    size: 820        # px, diameter
+    top:  "-25%"     # negative pushes pivot off-canvas
+    left: "-15%"
+    blur: 36         # px blur radius
+    duration: 24     # seconds per loop
+    keyframes: "float-a"
+
+  # Right edge, mid-page — pivot must sit past right edge
+  - id: "orb-r"
+    size: 760
+    top:  "30%"
+    left: "88%"
+    blur: 36
+    duration: 21
+    keyframes: "float-b"
+
+  # Bottom-left, peeking in from below
+  - id: "orb-bl"
+    size: 870
+    top:  "85%"
+    left: "-20%"
+    blur: 36
+    duration: 26
+    keyframes: "float-c"
+
+# ---- Grain overlay ----
+grain:
+  opacity: 0.95
+  base_frequency: 1.5
+  num_octaves: 2

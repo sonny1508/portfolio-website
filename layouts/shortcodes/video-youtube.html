@@ -1,0 +1,25 @@
+{{- /* {{< video-youtube id="dQw4w9WgXcQ" caption="..." wide="true" start="42" >}}
+       id      — YouTube video ID (the bit after ?v=), required
+       caption — optional italic caption below
+       wide    — "true" to expand to full article-column width
+       start   — optional start time in seconds
+       Uses youtube-nocookie.com to avoid third-party cookies. Works with unlisted videos. */ -}}
+{{- $id := .Get "id" -}}
+{{- if not $id -}}{{- errorf "video-youtube shortcode: missing required 'id' param" -}}{{- end -}}
+{{- $caption := .Get "caption" -}}
+{{- $wide := eq (.Get "wide") "true" -}}
+{{- $start := .Get "start" -}}
+{{- $src := printf "https://www.youtube-nocookie.com/embed/%s?rel=0" $id -}}
+{{- with $start -}}{{- $src = printf "%s&start=%s" $src . -}}{{- end -}}
+<figure class="figure figure--video figure--youtube{{ if $wide }} figure--wide{{ end }}">
+  <div class="ratio-16x9">
+    <iframe
+      src="{{ $src }}"
+      title="{{ $caption | default "YouTube video" }}"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  {{ with $caption }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>

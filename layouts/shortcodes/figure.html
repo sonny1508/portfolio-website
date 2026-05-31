@@ -1,0 +1,20 @@
+{{- /* {{< figure src="diagram.png" caption="..." wide="true" alt="..." >}}
+       src    — filename inside the page bundle, required
+       caption — optional italic caption below
+       wide    — "true" to expand to full article-column width
+       alt     — optional, falls back to caption text
+       Hugo .Resize keeps aspect ratio (width-only). */ -}}
+{{- $src := .Get "src" -}}
+{{- $caption := .Get "caption" -}}
+{{- $wide := eq (.Get "wide") "true" -}}
+{{- $alt := .Get "alt" | default $caption | default "" -}}
+{{- $res := .Page.Resources.GetMatch $src -}}
+{{- if not $res -}}
+  {{- errorf "figure shortcode: file %q not found in page bundle %q" $src .Page.Path -}}
+{{- end -}}
+{{- $target := cond $wide "1760x" "1280x" -}}
+{{- $img := $res.Resize $target -}}
+<figure class="figure{{ if $wide }} figure--wide{{ end }}">
+  <img src="{{ $img.RelPermalink }}" alt="{{ $alt }}" loading="lazy" width="{{ $img.Width }}" height="{{ $img.Height }}">
+  {{ with $caption }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>

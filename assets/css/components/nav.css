@@ -1,0 +1,166 @@
+/* ============================================================
+   Nav — fixed top, solid color, no transparency, no blur.
+   Two contrast states:
+     default        : purple bg, cream text  (over cream sections)
+     .is-on-purple  : cream bg, purple text  (over purple sections)
+   JS toggles .is-on-purple based on which section is currently
+   under the nav band — see assets/js/modules/nav.js.
+   ============================================================ */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--nav-height);
+  background: var(--color-purple);
+  color: var(--color-cream);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.nav.is-on-purple {
+  background: var(--color-cream);
+  color: var(--color-purple);
+}
+
+.nav__inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+/* ---- Logo ---- */
+.nav__logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  color: inherit;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.nav__logo:hover { opacity: 0.75; }
+.nav__logo svg,
+.nav__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ---- Link list ---- */
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav__links a {
+  font-size: var(--text-sm);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  position: relative;
+  opacity: 0.7;
+  padding-block: var(--space-2);
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.nav__links a:hover { opacity: 1; }
+.nav__links a.is-active { opacity: 1; }
+.nav__links a.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+}
+
+/* ---- Right-side actions: resume CTA + mobile toggle ---- */
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+/* Resume CTA — primary action.
+   Inverse-fill pill matching brand language: italic Mrs Eaves narrow,
+   filled with the opposite contrast colour so it reads as a button,
+   not just another link. Flips its fill when the nav flips. */
+.nav__cta {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--text-base);
+  line-height: 1;
+  padding: var(--space-3) var(--space-5);
+  border-radius: 999px;
+  /* Default state: nav is purple → button is filled cream w/ purple text */
+  background: var(--color-cream);
+  color: var(--color-purple);
+  transition: background var(--dur-fast) var(--ease),
+              color var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease);
+}
+.nav__cta:hover {
+  transform: translateY(-1px);
+}
+/* Nav over purple sections → button flips to filled purple w/ cream text */
+.nav.is-on-purple .nav__cta {
+  background: var(--color-purple);
+  color: var(--color-cream);
+}
+
+/* ---- Mobile toggle ---- */
+.nav__toggle {
+  display: none;
+  font-size: var(--text-sm);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+}
+
+@media (max-width: 720px) {
+  .nav__toggle { display: inline-flex; }
+
+  /* Tighter pill on small screens */
+  .nav__cta {
+    font-size: var(--text-sm);
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .nav__links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: inherit;
+    color: inherit;
+    padding: var(--space-4) var(--container-pad);
+    border-top: 1px solid currentColor;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  }
+  .nav__links a {
+    display: block;
+    padding-block: var(--space-3);
+  }
+  .nav.is-menu-open .nav__links {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+}

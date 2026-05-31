@@ -1,0 +1,42 @@
+# ============================================================
+# Site config — structured fields for Profile section + global UI.
+# Bio prose lives in content/_index.md so markdown stays natural.
+# ============================================================
+
+name: "Sonny Nguyen"
+role_line: "Game developer, infrastructure engineer, tools programmer."
+
+# Profile section assets (paths relative to /static/ root)
+photo:  "/img/portrait.jpg"   # 3:4 B&W portrait — drop yours at static/img/portrait.jpg
+logo:   "/img/logo.png"       # 44px square nav logo. SVG inlines + color-flips; PNG/JPG render as img.
+resume: "/resume.pdf"     # Optional. Button hides if file missing. File lives at static/resume.pdf.
+
+# Stats strip (4 tiles, mobile reflows to 2x2)
+stats:
+  - { value: "3",  suffix: "+", label: "Years of Experience" }
+  - { value: "5",  suffix: "+", label: "Games Shipped or Building" }
+  - { value: "4",  suffix: "+", label: "Services Hosted & Managed" }
+  - { value: "50", suffix: "+", label: "Production Tools Built" }
+
+# Contact section
+contact:
+  email:    "sonnynguyen.0001@gmail.com"
+  github:   "https://github.com/yourhandle"
+  linkedin: "https://www.linkedin.com/in/yourhandle/"
+  itch:     "https://yourhandle.itch.io/"
+  statement: "Let's build cool things together."
+
+# Nav links (Profile auto-derived from logo; rest listed here)
+nav:
+  - { label: "Profile",    href: "#profile"    }
+  - { label: "Projects",   href: "#projects"   }
+  - { label: "Experience", href: "#experience" }
+  - { label: "Skills",     href: "#skills"     }
+  - { label: "Contact",    href: "#contact"    }
+
+# Section labels (the "01 —" prefixes etc.)
+section_labels:
+  projects:   "01 — Selected Work"
+  experience: "02 — Where I've Worked"
+  skills:     "03 — Arsenal"
+  contact:    "04 — Get in Touch"

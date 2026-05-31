@@ -1,0 +1,30 @@
+{{- /* Profile section — full-viewport hero, two-column grid.
+       Photo column falls back to a 3:4 placeholder until the portrait file exists. */ -}}
+{{- $site := hugo.Data.site -}}
+{{- $photoStatic := printf "static%s" $site.photo -}}{{/* e.g. "static/img/portrait.jpg" */}}
+<div class="container profile">
+  <div class="profile__photo" data-reveal>
+    {{ if fileExists $photoStatic }}
+      <img src="{{ $site.photo }}" alt="Portrait of {{ $site.name }}" loading="eager" width="800" height="1067">
+    {{ else }}
+      {{ partial "placeholder.html" (dict "kind" "portrait" "label" "Portrait") }}
+    {{ end }}
+  </div>
+
+  <div class="profile__content" data-reveal>
+    <h1 class="profile__name">{{ $site.name }}</h1>
+    <p class="profile__role">{{ $site.role_line }}</p>
+    <div class="profile__bio">
+      {{ .Content }}
+    </div>
+
+    <ul class="stats">
+      {{ range $site.stats }}
+        <li class="stat">
+          <span class="stat__value">{{ .value }}<sup class="stat__sup">{{ .suffix }}</sup></span>
+          <span class="stat__label">{{ .label }}</span>
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+</div>

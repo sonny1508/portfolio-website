@@ -1,0 +1,56 @@
+/* ============================================================
+   Media placeholders — rendered when a file hasn't been added yet.
+   Diagonal stripe pattern keeps the missing-asset state obvious
+   without being ugly. Aspect ratios mirror the real slots.
+   ============================================================ */
+
+.placeholder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      var(--color-tint-on-cream) 0 12px,
+      transparent 12px 24px
+    ),
+    var(--color-cream);
+  border: 1px dashed var(--color-line-on-cream);
+  color: var(--color-purple);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  overflow: hidden;
+}
+
+[data-mode="purple"] .placeholder {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      var(--color-line-on-purple) 0 12px,
+      transparent 12px 24px
+    ),
+    var(--color-purple);
+  border-color: var(--color-line-on-purple);
+  color: var(--color-cream);
+}
+
+.placeholder__label {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-cream);
+  border: 1px solid var(--color-line-on-cream);
+}
+[data-mode="purple"] .placeholder__label {
+  background: var(--color-purple);
+  border-color: var(--color-line-on-purple);
+}
+
+/* Aspect-ratio variants */
+.placeholder--portrait { aspect-ratio: 3 / 4; }
+.placeholder--cover    { aspect-ratio: 16 / 9; }
+.placeholder--square   { aspect-ratio: 1 / 1; }

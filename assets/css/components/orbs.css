@@ -1,0 +1,91 @@
+/* ============================================================
+   Orbs — fixed canvas with three orb-groups drifting across.
+   Each group contains two stacked variants:
+     .orb--light  uses mix-blend-mode: lighten → visible on purple
+     .orb--dark   uses mix-blend-mode: darken  → visible on cream
+   The shape stays put; the section background determines which
+   blend mode resolves to a visible color — same circle, color flip.
+
+   The orb canvas sits at z-index 1. .container/.article-column are
+   z-index 2, so text always renders cleanly on top of the orbs.
+   ============================================================ */
+
+.bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.orb-group {
+  position: absolute;
+  top: var(--orb-top);
+  left: var(--orb-left);
+  width: var(--orb-size);
+  height: var(--orb-size);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  animation-duration: var(--orb-duration);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.orb {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  filter: blur(var(--orb-blur));
+}
+
+/* Gradient stops driven by CSS custom properties.
+   Defaults defined here as fallbacks; live values come from
+   data/background.yaml via inline style on .bg-canvas (globals) and
+   .orb-group (per-orb overrides). */
+.orb--light {
+  background: radial-gradient(circle at 50% 50%,
+    rgba(255, 249, 232, var(--orb-light-center, 0.95)) 0%,
+    rgba(255, 249, 232, var(--orb-light-mid,    0.50)) var(--orb-mid-stop, 45%),
+    rgba(255, 249, 232, 0)                             var(--orb-outer-stop, 78%));
+  mix-blend-mode: lighten;
+}
+.orb--dark {
+  background: radial-gradient(circle at 50% 50%,
+    rgba(36, 16, 64, var(--orb-dark-center, 0.70)) 0%,
+    rgba(36, 16, 64, var(--orb-dark-mid,    0.30)) var(--orb-mid-stop, 45%),
+    rgba(36, 16, 64, 0)                            var(--orb-outer-stop, 78%));
+  mix-blend-mode: darken;
+}
+
+/* ---- Keyframe paths — asymmetric so movement feels organic.
+        Translations stay below ~90px so the pivots never drift fully
+        into the viewport (only the soft bloom is meant to be visible). ---- */
+@keyframes float-a {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  25%      { transform: translate3d(50px, -70px, 0); }
+  50%      { transform: translate3d(90px, -20px, 0); }
+  75%      { transform: translate3d(20px, 60px, 0); }
+}
+@keyframes float-b {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  33%      { transform: translate3d(-60px, 50px, 0); }
+  66%      { transform: translate3d(40px, 80px, 0); }
+}
+@keyframes float-c {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  20%      { transform: translate3d(-40px, -50px, 0); }
+  45%      { transform: translate3d(70px, -30px, 0); }
+  70%      { transform: translate3d(30px, 70px, 0); }
+}
+@keyframes float-d {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  40%      { transform: translate3d(80px, 40px, 0); }
+  80%      { transform: translate3d(-30px, -60px, 0); }
+}
+
+/* JS pauses all orb animations when the tab is backgrounded */
+.bg-canvas.is-paused .orb-group { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-group { animation: none !important; }
+}

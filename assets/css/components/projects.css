@@ -1,0 +1,165 @@
+/* ============================================================
+   Projects section — tabs, paginated 2-col card grid, side buttons.
+   Pagination buttons hide entirely (not just disable) at start/end.
+   ============================================================ */
+
+/* ---- Tab bar ---- */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-12);
+}
+.tab {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  padding: var(--space-2) var(--space-5);
+  border: 1px solid var(--color-line-on-cream);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.tab:hover { background: var(--color-tint-on-cream); }
+.tab.is-active {
+  background: var(--color-purple);
+  color: var(--color-cream);
+  border-color: var(--color-purple);
+}
+
+/* ---- Grid frame + side pagination buttons ---- */
+.projects__frame {
+  position: relative;
+}
+
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-8);
+}
+
+/* ---- Card ---- */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+}
+.card:hover { transform: translateY(-3px); }
+
+.card__cover {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-tint-on-cream);
+  border: 1px solid var(--color-line-on-cream);
+}
+.card__cover > img,
+.card__cover > video,
+.card__cover > .placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--dur) var(--ease);
+}
+.card:hover .card__cover > img,
+.card:hover .card__cover > video {
+  transform: scale(1.03);
+}
+
+.card__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: var(--text-2xl);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.card__summary {
+  font-size: var(--text-base);
+  line-height: 1.55;
+  margin: 0;
+  opacity: 0.85;
+}
+
+.card__tags { margin-top: var(--space-1); }
+
+/* Hidden by filter or pagination — keep in DOM but remove from layout */
+.card[hidden] { display: none !important; }
+
+/* Ghost slot — clone of a real card with content hidden but layout intact.
+   Keeps the 2x2 grid shape constant across pages even when the current
+   filter+page has fewer than 4 cards. */
+.card--ghost {
+  visibility: hidden;
+  pointer-events: none;
+  cursor: default;
+}
+.card--ghost:hover { transform: none; }
+
+/* ---- Side pagination buttons ---- */
+.page-btn {
+  position: absolute;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-purple);
+  color: var(--color-cream);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%) scale(1);
+  transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  box-shadow: 0 6px 16px rgba(36, 16, 64, 0.16);
+  z-index: 2;
+}
+.page-btn--prev { left: calc(var(--space-12) * -1); }
+.page-btn--next { right: calc(var(--space-12) * -1); }
+
+/* Hidden state — opacity 0 + no pointer events, per spec */
+.page-btn[hidden] {
+  display: inline-flex !important;
+  opacity: 0;
+  transform: translateY(-50%) scale(0.85);
+  pointer-events: none;
+}
+
+/* ---- Page indicator ---- */
+.page-indicator {
+  margin-top: var(--space-10);
+  text-align: center;
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 720px) {
+  .projects__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+  /* Pagination buttons move inline below the grid */
+  .projects__frame {
+    display: flex;
+    flex-direction: column;
+  }
+  .page-btn {
+    position: static;
+    transform: none;
+    margin-top: var(--space-6);
+    align-self: center;
+  }
+  .page-btn[hidden] {
+    transform: scale(0.85);
+  }
+  .page-btn--prev { order: 2; }
+  .projects__grid { order: 1; }
+  .page-btn--next { order: 3; }
+}

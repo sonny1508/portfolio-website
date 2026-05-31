@@ -1,0 +1,25 @@
+{{- /* Skills section stub — two-column arsenal + technical groups. */ -}}
+{{- $skills := hugo.Data.skills -}}
+<div class="container skills">
+  <p class="section-label">{{ hugo.Data.site.section_labels.skills }}</p>
+
+  <div class="skills__columns">
+    <div class="skills__col skills__arsenal">
+      <h3 class="col-title">Arsenal</h3>
+      <ul class="arsenal">
+        {{ range $skills.arsenal }}<li class="arsenal__pill display">{{ . }}</li>{{ end }}
+      </ul>
+    </div>
+    <div class="skills__col skills__technical">
+      <h3 class="col-title">Technical</h3>
+      {{ range $skills.technical }}
+        <div class="skill-group">
+          <h4 class="display">{{ .name }}</h4>
+          <ul class="tags">
+            {{ range .tags }}<li class="tag">{{ . }}</li>{{ end }}
+          </ul>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="{{ site.Language.Lang | default "en" }}">
+<head>
+  {{ partial "head.html" . }}
+  {{ partial "head-css.html" . }}
+</head>
+<body>
+  {{ partial "background.html" . }}
+  {{ partial "nav.html" . }}
+
+  <main id="main">
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  {{ partial "scripts.html" . }}
+</body>
+</html>

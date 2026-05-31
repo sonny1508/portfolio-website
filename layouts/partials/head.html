@@ -1,0 +1,49 @@
+{{- $title := .Title | default site.Title -}}
+{{- $isHome := .IsHome -}}
+{{- $fullTitle := cond $isHome site.Title (printf "%s — %s" $title site.Title) -}}
+{{- $description := .Description | default .Summary | default site.Params.description -}}
+{{- $ogImage := .Params.og_image | default site.Params.ogImage -}}
+{{- $ogImageURL := absURL $ogImage -}}
+{{- $canonical := .Permalink -}}
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#241040">
+
+<title>{{ $fullTitle }}</title>
+<meta name="description" content="{{ $description }}">
+<link rel="canonical" href="{{ $canonical }}">
+
+{{/* OpenGraph */}}
+<meta property="og:type" content="{{ cond $isHome "website" "article" }}">
+<meta property="og:title" content="{{ $fullTitle }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:url" content="{{ $canonical }}">
+<meta property="og:image" content="{{ $ogImageURL }}">
+<meta property="og:site_name" content="{{ site.Title }}">
+
+{{/* Twitter card */}}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $fullTitle }}">
+<meta name="twitter:description" content="{{ $description }}">
+<meta name="twitter:image" content="{{ $ogImageURL }}">
+{{ with site.Params.twitter }}<meta name="twitter:site" content="@{{ . }}">{{ end }}
+
+{{/* JSON-LD: Person on home, Article on project pages.
+     Build as a dict and jsonify once — safeJS prevents Hugo's
+     <script> context escaping from mangling the quotes. */}}
+{{ if $isHome }}
+  {{ $s := hugo.Data.site }}
+  {{ $jsonld := dict
+    "@context" "https://schema.org"
+    "@type"    "Person"
+    "name"     $s.name
+    "jobTitle" $s.role_line
+    "url"      site.BaseURL
+    "email"    (printf "mailto:%s" $s.contact.email)
+    "sameAs"   (slice $s.contact.github $s.contact.linkedin $s.contact.itch)
+  }}
+<script type="application/ld+json">{{ $jsonld | jsonify (dict "indent" "  ") | safeJS }}</script>
+{{ end }}
+
+<link rel="icon" href="/favicon.ico">

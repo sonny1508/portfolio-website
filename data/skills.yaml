@@ -1,0 +1,25 @@
+# ============================================================
+# Skills section — left "Arsenal" (chunky pills) + right "Technical" (groups).
+# ============================================================
+
+arsenal:
+  - "Infrastructure"
+  - "DevOps"
+  - "Tools Programmer"
+  - "Game Developer"
+  - "Technical Art"
+  - "System Admin"
+
+technical:
+  - name: "Infrastructure & Systems"
+    tags: ["Linux", "nginx", "k3s", "Ansible", "Active Directory", "PDQ Deploy", "Frappe", "Helix/Perforce"]
+  - name: "CI/CD & Automation"
+    tags: ["GitHub Actions", "Bash", "PowerShell", "PyInstaller", "Electron Builder"]
+  - name: "Languages"
+    tags: ["Python", "C++", "C#", "JavaScript", "TypeScript", "SQL"]
+  - name: "Game Engines & DCC"
+    tags: ["Unreal Engine", "Unity", "Maya", "3dsmax", "Blender"]
+  - name: "Web"
+    tags: ["HTML/CSS", "JS/TS", "Hugo", "Node"]
+  - name: "Currently Learning"
+    tags: ["AWS Fundamentals", "Terraform", "Docker/Compose"]

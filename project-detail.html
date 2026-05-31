@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Stack on k3s — Sonny Nguyen</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   DESIGN TOKENS — identical to main page
+   ============================================================ */
+:root {
+  --color-cream: #fff9e8;
+  --color-purple: #241040;
+  --color-line-on-cream: rgba(36, 16, 64, 0.14);
+  --color-line-on-purple: rgba(255, 249, 232, 0.18);
+  --color-tint-on-cream: rgba(36, 16, 64, 0.04);
+
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'EB Garamond', Georgia, serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.75rem;
+  --text-4xl: 4rem;
+  --text-5xl: 5.5rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  --container-max: 1200px;
+  --container-pad: 2rem;
+  --prose-width: 68ch;
+  --article-column: 880px;
+  --nav-height: 4.5rem;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 200ms;
+  --dur: 400ms;
+  --radius: 4px;
+
+  --z-orbs: 1;
+  --z-content: 2;
+  --z-grain: 50;
+  --z-nav: 100;
+}
+
+/* ============================================================
+   RESET & BASE — identical to main
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-purple);
+  background: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0;
+}
+p { margin: 0; }
+ul { list-style: none; padding: 0; margin: 0; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+  position: relative;
+  z-index: var(--z-content);
+}
+
+/* ============================================================
+   BACKGROUND — identical orb system so brand stays consistent
+   ============================================================ */
+.bg-canvas { position: fixed; inset: 0; pointer-events: none; z-index: var(--z-orbs); overflow: hidden; }
+.orb-group { position: absolute; will-change: transform; }
+.orb {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  filter: blur(36px);
+}
+.orb--light {
+  background: radial-gradient(circle at 50% 50%,
+    rgba(255, 249, 232, 0.95) 0%,
+    rgba(255, 249, 232, 0.5)  45%,
+    rgba(255, 249, 232, 0)    78%);
+  mix-blend-mode: lighten;
+}
+.orb--dark {
+  background: radial-gradient(circle at 50% 50%,
+    rgba(36, 16, 64, 0.7) 0%,
+    rgba(36, 16, 64, 0.3) 45%,
+    rgba(36, 16, 64, 0)   78%);
+  mix-blend-mode: darken;
+}
+
+@keyframes float-a { 0%,100%{transform:translate3d(0,0,0)} 25%{transform:translate3d(50px,-70px,0)} 50%{transform:translate3d(90px,-20px,0)} 75%{transform:translate3d(20px,60px,0)} }
+@keyframes float-b { 0%,100%{transform:translate3d(0,0,0)} 33%{transform:translate3d(-60px,50px,0)} 66%{transform:translate3d(40px,80px,0)} }
+@keyframes float-c { 0%,100%{transform:translate3d(0,0,0)} 20%{transform:translate3d(-40px,-50px,0)} 45%{transform:translate3d(70px,-30px,0)} 70%{transform:translate3d(30px,70px,0)} }
+@keyframes float-d { 0%,100%{transform:translate3d(0,0,0)} 40%{transform:translate3d(80px,40px,0)} 80%{transform:translate3d(-30px,-60px,0)} }
+
+@media (prefers-reduced-motion: reduce) { .orb-group { animation: none !important; } }
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-grain);
+  opacity: 0.95;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='2' stitchTiles='stitch' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 2.2 -0.45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* ============================================================
+   NAV — identical to main
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-height);
+  background: var(--color-purple);
+  color: var(--color-cream);
+  border-bottom: 1px solid var(--color-line-on-purple);
+  z-index: var(--z-nav);
+}
+.nav__inner {
+  height: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav__brand { display: flex; align-items: center; height: 100%; }
+.nav__logo { height: 44px; width: 44px; border-radius: var(--radius); object-fit: cover; display: block; }
+.nav__links { display: flex; gap: var(--space-8); }
+.nav__link {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: var(--space-2) 0;
+  opacity: 0.7;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.nav__link:hover { opacity: 1; }
+@media (max-width: 720px) { .nav__links { display: none; } }
+
+/* ============================================================
+   PROJECT HERO
+   ============================================================ */
+.project-hero {
+  padding-top: calc(var(--nav-height) + var(--space-16));
+  padding-bottom: var(--space-12);
+}
+.project-hero__back {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: var(--space-12);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.project-hero__back:hover { opacity: 1; }
+.project-hero__back::before { content: '←'; font-size: 1.2em; }
+
+.project-hero__meta {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.project-hero__meta::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.project-hero__title {
+  font-size: clamp(2.75rem, 7vw, var(--text-5xl));
+  max-width: 18ch;
+  margin-bottom: var(--space-6);
+}
+.project-hero__lede {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--text-xl);
+  line-height: 1.45;
+  max-width: var(--article-column);
+  opacity: 0.85;
+  margin-bottom: var(--space-8);
+}
+.project-hero__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8) var(--space-12);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-line-on-cream);
+  margin-bottom: var(--space-16);
+  max-width: var(--article-column);
+}
+.fact { display: flex; flex-direction: column; gap: var(--space-1); }
+.fact__label {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+.fact__value {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: var(--text-lg);
+}
+
+/* ============================================================
+   COVER MEDIA
+   ============================================================ */
+.cover {
+  width: 100%;
+  max-width: var(--article-column);
+  aspect-ratio: 16 / 9;
+  background: var(--color-purple);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-16);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(36, 16, 64, 0.15);
+}
+.cover::before {
+  content: 'cover image / video';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-xl);
+  color: rgba(255, 249, 232, 0.35);
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   PROSE — the core article styling
+   ============================================================ */
+.prose {
+  max-width: var(--article-column);
+  margin: 0;
+  padding-bottom: var(--space-24);
+}
+.prose > * + * { margin-top: var(--space-6); }
+.prose p {
+  font-size: var(--text-lg);
+  line-height: 1.7;
+}
+.prose h2 {
+  font-size: var(--text-2xl);
+  margin-top: var(--space-16);
+  margin-bottom: var(--space-4);
+}
+.prose h3 {
+  font-size: var(--text-xl);
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-3);
+}
+.prose a {
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.prose a:hover { opacity: 0.55; }
+
+.prose blockquote {
+  margin: var(--space-12) 0;
+  padding: var(--space-2) var(--space-8);
+  border-left: 3px solid var(--color-purple);
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--text-xl);
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.prose ul.bulleted,
+.prose ol {
+  padding-left: var(--space-6);
+  font-size: var(--text-lg);
+  line-height: 1.7;
+}
+.prose ul.bulleted { list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose ul.bulleted li,
+.prose ol li { margin-top: var(--space-2); }
+
+.prose code {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.88em;
+  background: var(--color-tint-on-cream);
+  padding: 0.12em 0.4em;
+  border-radius: 3px;
+}
+.prose pre {
+  background: var(--color-purple);
+  color: var(--color-cream);
+  padding: var(--space-6);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  margin: var(--space-8) 0;
+}
+.prose pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* Figures — inline image, wide image, and video embed */
+.prose figure {
+  margin: var(--space-12) 0;
+}
+.prose figure img {
+  width: 100%;
+  border-radius: var(--radius);
+  background: var(--color-tint-on-cream);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.prose figcaption {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--text-sm);
+  opacity: 0.65;
+  margin-top: var(--space-3);
+  text-align: center;
+}
+/* Wide figure breaks out of the prose column to fill the article width */
+.prose figure.is-wide {
+  width: 100%;
+  max-width: var(--article-column);
+  margin-left: 0;
+  transform: none;
+}
+@media (max-width: 920px) {
+  .prose figure.is-wide { width: 100%; margin-left: 0; transform: none; }
+}
+
+/* Placeholder figure for the mockup — shows the styling without real assets */
+.prose figure.placeholder img,
+.prose figure.placeholder .ph-box {
+  background:
+    linear-gradient(135deg, rgba(36,16,64,0.12) 0%, rgba(36,16,64,0.06) 100%),
+    var(--color-tint-on-cream);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  color: rgba(36, 16, 64, 0.45);
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+}
+
+/* Video embed */
+.video-embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--color-purple);
+}
+.video-embed iframe,
+.video-embed .ph-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video-embed .ph-video {
+  display: grid;
+  place-items: center;
+  color: rgba(255, 249, 232, 0.4);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  letter-spacing: 0.05em;
+}
+
+/* Tags at the bottom */
+.article-tags {
+  max-width: var(--article-column);
+  margin: var(--space-16) 0 0;
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-line-on-cream);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.tag {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-line-on-cream);
+  border-radius: 999px;
+  opacity: 0.75;
+}
+
+/* ============================================================
+   FOOTER NAVIGATION — prev / next project
+   ============================================================ */
+.project-footer {
+  padding: var(--space-24) 0;
+  border-top: 1px solid var(--color-line-on-cream);
+  margin-top: var(--space-24);
+}
+.project-footer__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  max-width: var(--article-column);
+}
+.project-footer__cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-6) 0;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.project-footer__cell:hover { opacity: 0.65; }
+.project-footer__cell--prev { text-align: left; }
+.project-footer__cell--next { text-align: right; align-items: flex-end; }
+.project-footer__label {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+.project-footer__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: var(--text-xl);
+  letter-spacing: -0.01em;
+}
+@media (max-width: 720px) {
+  .project-footer__row { grid-template-columns: 1fr; }
+  .project-footer__cell--next { text-align: left; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- BG canvas + grain (identical brand system) -->
+<div class="bg-canvas" aria-hidden="true">
+  <div class="orb-group" style="width: 870px; height: 870px; top: -15%; left: -12%; animation: float-a 28s ease-in-out infinite;">
+    <div class="orb orb--light"></div><div class="orb orb--dark"></div>
+  </div>
+  <div class="orb-group" style="width: 730px; height: 730px; top: 38%; left: 72%; animation: float-b 33s ease-in-out infinite;">
+    <div class="orb orb--light"></div><div class="orb orb--dark"></div>
+  </div>
+  <div class="orb-group" style="width: 810px; height: 810px; top: 70%; left: -14%; animation: float-c 31s ease-in-out infinite;">
+    <div class="orb orb--light"></div><div class="orb orb--dark"></div>
+  </div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="portfolio-mockup.html" class="nav__brand" aria-label="Sonny Nguyen — home">
+      <img src="data:image/jpeg;base64,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" alt="Sonny" class="nav__logo">
+    </a>
+    <ul class="nav__links">
+      <li><a href="portfolio-mockup.html#profile" class="nav__link">Profile</a></li>
+      <li><a href="portfolio-mockup.html#projects" class="nav__link">Projects</a></li>
+      <li><a href="portfolio-mockup.html#experience" class="nav__link">Experience</a></li>
+      <li><a href="portfolio-mockup.html#skills" class="nav__link">Skills</a></li>
+      <li><a href="portfolio-mockup.html#contact" class="nav__link">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============================================================
+     PROJECT HERO
+     ============================================================ -->
+<section class="project-hero">
+  <div class="container">
+    <a href="portfolio-mockup.html#projects" class="project-hero__back">Back to projects</a>
+
+    <div class="project-hero__meta">Infrastructure · Case Study</div>
+    <h1 class="project-hero__title">Studio Stack on k3s</h1>
+    <p class="project-hero__lede">
+      How a single-node Kubernetes cluster ended up running both our internal communications and our entire ERP — and what an unreasonable nginx config taught me about routing services that were never meant to share a server.
+    </p>
+
+    <div class="project-hero__facts">
+      <div class="fact">
+        <span class="fact__label">Role</span>
+        <span class="fact__value">Solo build &amp; maintenance</span>
+      </div>
+      <div class="fact">
+        <span class="fact__label">Stack</span>
+        <span class="fact__value">k3s · nginx · Element · Frappe</span>
+      </div>
+      <div class="fact">
+        <span class="fact__label">Period</span>
+        <span class="fact__value">2024 — Present</span>
+      </div>
+      <div class="fact">
+        <span class="fact__label">Status</span>
+        <span class="fact__value">In production</span>
+      </div>
+    </div>
+
+    <div class="cover"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROSE BODY
+     ============================================================ -->
+<article>
+  <div class="container">
+    <div class="prose">
+
+      <h2>The problem</h2>
+      <p>
+        Most studios I'd worked at had two infrastructure decisions made by default: chat lived in <a href="https://slack.com">Slack</a>, and the production-management side of the studio lived in a tangled web of spreadsheets. Both worked, both cost more than anyone admitted, and neither was particularly considerate of the fact that we operate in an environment where the workstation network is intentionally air-gapped from the public internet for parts of the day.
+      </p>
+      <p>
+        When I took over infrastructure at our studio, the chat-and-ERP problem was the first one I wanted to solve properly. The constraints were unusual but coherent: everything had to run on hardware we already owned, every service had to be reachable from the studio LAN without internet, and the licensing math had to make sense for a team that wasn't paying SaaS-per-seat indefinitely. That ruled out almost every commercial option I'd previously taken for granted.
+      </p>
+
+      <p>
+        I landed on two open source projects: <a href="https://element.io">Element Web</a> as the chat client (with a self-hosted <a href="https://matrix.org/docs/older/synapse/">Synapse</a> homeserver behind it), and the <a href="https://frappe.io">Frappe Framework</a> as the ERP layer, primarily through its ERPNext distribution. On paper these are two very different beasts — a real-time messaging system and a metadata-heavy form-based business app — and putting them on the same single-node cluster sounded a little reckless. It mostly wasn't.
+      </p>
+
+      <figure class="placeholder">
+        <div class="ph-box">architecture diagram</div>
+        <figcaption>The overall topology: k3s on a single physical host, two service stacks behind a shared nginx ingress, both reachable from the studio LAN.</figcaption>
+      </figure>
+
+      <h2>Why k3s</h2>
+      <p>
+        I'd run docker-compose stacks for years, and full Kubernetes once or twice in side projects, but neither felt right for this. Compose doesn't scale gracefully when you start needing real ingress, persistent volume claims, and service-to-service DNS. Full Kubernetes was overkill for a single-node studio server and would have added an operational burden I had no time for. <a href="https://k3s.io">k3s</a> sits exactly between them — it speaks the Kubernetes API, it ships with a sensible ingress controller out of the box, and it's small enough that I can mentally fit the whole control plane in my head when something goes wrong at 2am.
+      </p>
+      <p>
+        The other reason was forward-compatibility. If we ever outgrow a single node, k3s upgrades cleanly into a multi-node setup; the same manifests would still apply. I haven't needed that yet, but the optionality is part of why I chose it.
+      </p>
+
+      <h2>The nginx situation</h2>
+      <p>
+        Here's where the project became more interesting than I expected. k3s's default ingress (Traefik) is fine for greenfield workloads, but Element's recommended deployment expects a fairly specific nginx layout, and Frappe's docker setup brings its own nginx container with its own opinionated routing. Stacking them was a non-trivial puzzle.
+      </p>
+
+      <blockquote>
+        The right answer wasn't to fight either project's conventions — it was to put a third nginx in front of both, terminate TLS once, and let each stack believe it was the only thing on the server.
+      </blockquote>
+
+      <p>
+        That third nginx — the outer ingress — ended up doing more than I planned. It handles TLS termination with certificates from our internal CA, splits traffic by hostname (<code>chat.studio.lan</code> and <code>erp.studio.lan</code>), handles WebSocket upgrades for the Matrix client, and rewrites a few paths that Element expects to live at the root but actually live inside a namespaced subpath. The config is maybe three hundred lines of nginx now. None of it is clever; all of it is necessary.
+      </p>
+
+      <figure class="placeholder">
+        <div class="ph-box">nginx routing diagram</div>
+        <figcaption>One outer nginx as the ingress, two inner stacks behind it. TLS is terminated at the outer layer so neither inner service needs to know about certificates.</figcaption>
+      </figure>
+
+      <h2>What I learned</h2>
+      <p>
+        Three things stuck with me after this project went into production. The first is that "self-hosted" doesn't have to mean "fragile." Once the playbook for rebuilding the cluster from scratch was scripted (Ansible, naturally), the system became more reliable than the SaaS tools it replaced — partly because it was tuned for our exact network and partly because nobody else's outage page is going to affect us.
+      </p>
+      <p>
+        The second is that operating two unrelated open source projects on shared infrastructure forces you to take their upgrade cadences seriously. Element and Frappe have very different release rhythms; I now have a quiet routine of staging-server upgrades the week after either project publishes a release, before pulling that version into production.
+      </p>
+      <p>
+        The third — and this is the one I didn't expect — is how much faster everyone in the studio communicates now that chat history isn't held hostage by free-tier limits. We can search the entire history of a project. We can paste large logs into a thread without truncation. The boring infrastructure decisions have outsized impact on creative work, and I think this project is the cleanest illustration of that I've shipped.
+      </p>
+
+      <h3>A small note on operations</h3>
+      <p>
+        Day-to-day, this stack costs me maybe twenty minutes a week. Patches happen on a schedule, backups are <a href="#">handled by a separate Ansible role</a> that snapshots the persistent volumes nightly, and monitoring is a simple Uptime Kuma instance on the same host. The whole thing is documented in our internal wiki and could be handed off to another infrastructure-literate person in a half-day of walkthrough.
+      </p>
+
+      <figure class="placeholder is-wide">
+        <div class="ph-box">wide screenshot or screen-recording embed</div>
+        <figcaption>Full-bleed media works for screenshots of the deployed stack — dashboards, terminal sessions, whatever's worth showing at scale.</figcaption>
+      </figure>
+
+      <h3>Video walkthrough</h3>
+      <p>
+        For the parts that don't capture well as a static screenshot — the actual deployment flow, the way the ingress reroutes traffic when a service is rolling — a short recording is more useful than another diagram. The embed below is a private YouTube link, which keeps the content unlisted while still benefiting from YouTube's encoding and delivery.
+      </p>
+      <figure>
+        <div class="video-embed">
+          <!-- Replace src with a real (private) YouTube embed URL when ready -->
+          <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
+          <div class="ph-video">video embed placeholder</div>
+        </div>
+        <figcaption>Replace the placeholder with an unlisted YouTube embed when content is ready.</figcaption>
+      </figure>
+
+      <p>
+        If any of this is interesting to you — particularly the nginx-as-glue pattern, or the operational case for self-hosting a small fleet of internal services — I'd be happy to talk about it. <a href="portfolio-mockup.html#contact">My contact details are on the main page</a>.
+      </p>
+
+    </div>
+
+    <div class="article-tags">
+      <span class="tag">k3s</span>
+      <span class="tag">nginx</span>
+      <span class="tag">linux</span>
+      <span class="tag">self-hosted</span>
+      <span class="tag">element</span>
+      <span class="tag">frappe</span>
+    </div>
+  </div>
+</article>
+
+<!-- ============================================================
+     FOOTER — prev / next
+     ============================================================ -->
+<section class="project-footer">
+  <div class="container">
+    <div class="project-footer__row">
+      <a href="#" class="project-footer__cell project-footer__cell--prev">
+        <span class="project-footer__label">← Previous Project</span>
+        <span class="project-footer__title">Workstation Deployment Pipeline</span>
+      </a>
+      <a href="#" class="project-footer__cell project-footer__cell--next">
+        <span class="project-footer__label">Next Project →</span>
+        <span class="project-footer__title">Offline App Distribution</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

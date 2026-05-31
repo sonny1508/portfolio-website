@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44" aria-hidden="true">
+  <!-- Placeholder logo: simple sun mark. Swap with the real brand mark when ready. -->
+  <circle cx="22" cy="22" r="7" fill="currentColor"/>
+  <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="22" y1="2"  x2="22" y2="8"/>
+    <line x1="22" y1="36" x2="22" y2="42"/>
+    <line x1="2"  y1="22" x2="8"  y2="22"/>
+    <line x1="36" y1="22" x2="42" y2="22"/>
+    <line x1="7.8"  y1="7.8"  x2="12.2" y2="12.2"/>
+    <line x1="31.8" y1="31.8" x2="36.2" y2="36.2"/>
+    <line x1="7.8"  y1="36.2" x2="12.2" y2="31.8"/>
+    <line x1="31.8" y1="12.2" x2="36.2" y2="7.8"/>
+  </g>
+</svg>

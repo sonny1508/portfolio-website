@@ -1,0 +1,25 @@
+{{- /* {{< video-mp4 src="loop.mp4" caption="..." wide="true" controls="true" poster="loop-poster.jpg" >}}
+       Defaults to autoplay muted loop (acts as an animated figure).
+       Pass controls="true" to show native controls + disable autoplay/loop. */ -}}
+{{- $src := .Get "src" -}}
+{{- $caption := .Get "caption" -}}
+{{- $wide := eq (.Get "wide") "true" -}}
+{{- $controls := eq (.Get "controls") "true" -}}
+{{- $poster := .Get "poster" -}}
+{{- $res := .Page.Resources.GetMatch $src -}}
+{{- if not $res -}}
+  {{- errorf "video-mp4 shortcode: file %q not found in page bundle %q" $src .Page.Path -}}
+{{- end -}}
+{{- $posterURL := "" -}}
+{{- with $poster -}}
+  {{- $p := $.Page.Resources.GetMatch . -}}
+  {{- if $p -}}{{- $posterURL = $p.RelPermalink -}}{{- end -}}
+{{- end -}}
+<figure class="figure figure--video{{ if $wide }} figure--wide{{ end }}">
+  <video
+    src="{{ $res.RelPermalink }}"
+    {{ with $posterURL }}poster="{{ . }}"{{ end }}
+    {{ if $controls }}controls preload="metadata"{{ else }}autoplay muted loop playsinline preload="auto"{{ end }}
+  ></video>
+  {{ with $caption }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>

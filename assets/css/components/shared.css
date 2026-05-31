@@ -1,0 +1,91 @@
+/* ============================================================
+   Shared atoms — section labels, tags, article-column helper.
+   ============================================================ */
+
+/* ---- Section label: "01 — Selected Work" w/ leading rule glyph ---- */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-xs);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.7;
+  margin: 0 0 var(--space-4);
+}
+.section-label::before {
+  content: "";
+  display: inline-block;
+  width: 2.5rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* ---- Section title shared sizing ---- */
+.section-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: var(--text-4xl);
+  line-height: 1.05;
+  margin: 0 0 var(--space-10);
+}
+
+/* ---- Tag pills (cards, skills, article footer) ---- */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.tag {
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-line-on-cream);
+  border-radius: 999px;
+  background: transparent;
+  white-space: nowrap;
+}
+[data-mode="purple"] .tag { border-color: var(--color-line-on-purple); }
+
+/* ---- Article column: 880px centered, shared by project detail blocks ----
+   z-index: 2 mirrors .container — keeps article content above the orb canvas. */
+.article-column {
+  max-width: var(--article-column);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+  position: relative;
+  z-index: 2;
+}
+
+/* ---- Generic section vertical rhythm ----
+   No z-index here on purpose. The orb canvas is z-index 1 (fixed),
+   sections stay at auto so orbs render BETWEEN section bg and content.
+   .container is pulled up to z-index 2 (see base.css) so text sits on top. */
+section[data-section] {
+  padding-block: var(--space-24);
+  position: relative;
+}
+section#profile {
+  min-height: 100vh;
+  padding-top: calc(var(--nav-height) + var(--space-16));
+  display: flex;
+  align-items: center;
+}
+
+/* ---- Scroll reveal initial state (JS adds .is-revealed) ---- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}

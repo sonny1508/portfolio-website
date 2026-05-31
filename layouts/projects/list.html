@@ -1,0 +1,7 @@
+{{- /* /projects/ is not a destination — the home grid IS the index.
+       Redirect to /#projects so the URL is browser-history-safe. */ -}}
+<!doctype html>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="0; url={{ "/#projects" | relURL }}">
+<link rel="canonical" href="{{ "/" | absURL }}#projects">
+<title>{{ site.Title }}</title>

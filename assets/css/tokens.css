@@ -1,0 +1,59 @@
+/* ============================================================
+   Design Tokens
+   Single source of truth — no raw values in component CSS.
+   Mirrors SPEC.md §Design Tokens.
+   ============================================================ */
+
+:root {
+  /* ---- Color ---- */
+  --color-cream: #fff9e8;
+  --color-purple: #241040;
+  --color-line-on-cream: rgba(36, 16, 64, 0.14);
+  --color-line-on-purple: rgba(255, 249, 232, 0.18);
+  --color-tint-on-cream: rgba(36, 16, 64, 0.04);
+
+  /* ---- Type families ----
+     Production fonts; mockup fallbacks defined in fonts.css load order
+     so we degrade gracefully if a font file fails. */
+  --font-display: "Degular", "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body: "Mrs Eaves XL Serif Narrow OT", "EB Garamond", Georgia, serif;
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  /* ---- Type scale (modular ~1.25) ---- */
+  --text-xs:   0.75rem;     /* 12 — labels, meta */
+  --text-sm:   0.875rem;    /* 14 — small body, nav links */
+  --text-base: 1.0625rem;   /* 17 — default body */
+  --text-lg:   1.25rem;     /* 20 — emphasis body */
+  --text-xl:   1.5rem;      /* 24 — card titles, h3 */
+  --text-2xl:  2rem;        /* 32 — section subheads */
+  --text-3xl:  2.75rem;     /* 44 — hero secondary */
+  --text-4xl:  clamp(2.5rem, 6vw, 4rem);          /* 64 — section titles */
+  --text-stat: clamp(3rem, 7vw, 4.5rem);          /* 72 — stat numbers */
+  --text-5xl:  clamp(3rem, 9vw, 5.5rem);          /* 88 — hero name */
+
+  /* ---- Spacing (8px scale) ---- */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* ---- Layout ---- */
+  --container-max: 1200px;
+  --container-pad: 2rem;
+  --article-column: 880px;
+  --nav-height: 4.5rem;
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 200ms;
+  --dur: 400ms;
+}

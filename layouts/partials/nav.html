@@ -1,0 +1,46 @@
+{{- /* Nav — fixed top, full-bleed solid color.
+       Color flip on .is-on-purple is driven by JS (IntersectionObserver).
+       Logo handling:
+         - .svg path  → readFile + inline so currentColor follows the nav mode
+         - other      → <img> (PNG/JPG render at fixed dimensions, no color flip) */ -}}
+{{- $site := hugo.Data.site -}}
+{{- $logoURL := $site.logo -}}
+{{- $logoPath := printf "static%s" $logoURL -}}{{/* e.g. "static/img/logo.png" */}}
+{{- $isSVG := hasSuffix (lower $logoURL) ".svg" -}}
+
+{{- /* Resume button only renders if a PDF exists at the configured path. */ -}}
+{{- $resumeURL := $site.resume | default "/resume.pdf" -}}
+{{- $resumePath := printf "static%s" $resumeURL -}}
+{{- $hasResume := fileExists $resumePath -}}
+
+<nav class="nav" data-nav aria-label="Primary">
+  <div class="container nav__inner">
+    <a class="nav__logo" href="#profile" aria-label="Home">
+      {{- if and $isSVG (fileExists $logoPath) -}}
+        {{ readFile $logoPath | safeHTML }}
+      {{- else if fileExists $logoPath -}}
+        <img src="{{ $logoURL }}" alt="" width="44" height="44">
+      {{- else -}}
+        {{ partial "placeholder.html" (dict "kind" "square" "label" "Logo") }}
+      {{- end -}}
+    </a>
+
+    <ul class="nav__links" id="nav-menu" data-nav-menu>
+      {{ range $site.nav }}
+        <li><a href="{{ .href }}" data-nav-link>{{ .label }}</a></li>
+      {{ end }}
+    </ul>
+
+    <div class="nav__actions">
+      {{ if $hasResume }}
+        <a class="nav__cta" href="{{ $resumeURL }}" download>Resume</a>
+      {{ end }}
+
+      <button class="nav__toggle" type="button"
+              aria-expanded="false" aria-controls="nav-menu"
+              data-nav-toggle>
+        <span class="nav__toggle-label">Menu</span>
+      </button>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,67 @@
+/* ============================================================
+   Font loading
+   Self-hosted commercial fonts. OTF used as-is for now; convert
+   to WOFF2 later for size savings (see AUTHORING.md).
+   ============================================================ */
+
+/* ---- Degular (display) ---- */
+@font-face {
+  font-family: "Degular";
+  src: url("/fonts/Degular/Degular Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Degular";
+  src: url("/fonts/Degular/Degular Bold Italic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Degular";
+  src: url("/fonts/Degular/Degular Black.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Degular";
+  src: url("/fonts/Degular/Degular Black Italic.otf") format("opentype");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ---- Mrs Eaves XL Serif Narrow OT (body) ----
+   We only ship the NarOT variants in CSS; the wider Mrs Eaves OTFs
+   under assets/fonts/Mrs Eaves XL/ are kept as source but not linked. */
+@font-face {
+  font-family: "Mrs Eaves XL Serif Narrow OT";
+  src: url("/fonts/Mrs Eaves XL/Mrs Eaves XL Serif NarOT Reg.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Mrs Eaves XL Serif Narrow OT";
+  src: url("/fonts/Mrs Eaves XL/Mrs Eaves XL Serif NarOT RegItalic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Mrs Eaves XL Serif Narrow OT";
+  src: url("/fonts/Mrs Eaves XL/Mrs Eaves XL Serif NarOT Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Mrs Eaves XL Serif Narrow OT";
+  src: url("/fonts/Mrs Eaves XL/Mrs Eaves XL Serif NarOT BoldItalic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}

@@ -1,0 +1,50 @@
+{{- /* Background layer: orbs + grain.
+       All knobs come from data/background.yaml — edit there, not here.
+       Global intensity is set on .bg-canvas; per-orb overrides go inline
+       on each .orb-group via additional CSS custom properties. */ -}}
+{{- $bg := hugo.Data.background -}}
+{{- $g := $bg.intensity -}}
+
+<div class="bg-canvas" aria-hidden="true"
+     style="--orb-light-center: {{ $g.light_center }};
+            --orb-light-mid: {{ $g.light_mid }};
+            --orb-dark-center: {{ $g.dark_center }};
+            --orb-dark-mid: {{ $g.dark_mid }};
+            --orb-mid-stop: {{ $g.mid_stop }}%;
+            --orb-outer-stop: {{ $g.outer_stop }}%;">
+  {{ range $bg.orbs }}
+    {{- $i := .intensity -}}
+    <div class="orb-group"
+         id="{{ .id }}"
+         style="--orb-size: {{ .size }}px;
+                --orb-top: {{ .top }};
+                --orb-left: {{ .left }};
+                --orb-blur: {{ .blur }}px;
+                --orb-duration: {{ .duration }}s;
+                animation-name: {{ .keyframes }};
+                {{- with $i.light_center }}--orb-light-center: {{ . }};{{ end }}
+                {{- with $i.light_mid }}--orb-light-mid: {{ . }};{{ end }}
+                {{- with $i.dark_center }}--orb-dark-center: {{ . }};{{ end }}
+                {{- with $i.dark_mid }}--orb-dark-mid: {{ . }};{{ end }}
+                {{- with $i.mid_stop }}--orb-mid-stop: {{ . }}%;{{ end }}
+                {{- with $i.outer_stop }}--orb-outer-stop: {{ . }}%;{{ end -}}
+                ">
+      <div class="orb orb--light"></div>
+      <div class="orb orb--dark"></div>
+    </div>
+  {{ end }}
+</div>
+
+<svg class="grain" aria-hidden="true" style="opacity: {{ $bg.grain.opacity }};">
+  <filter id="grain-filter">
+    <feTurbulence type="fractalNoise"
+                  baseFrequency="{{ $bg.grain.base_frequency }}"
+                  numOctaves="{{ $bg.grain.num_octaves }}"
+                  stitchTiles="stitch"/>
+    <feColorMatrix values="0 0 0 0 0
+                           0 0 0 0 0
+                           0 0 0 0 0
+                           0 0 0 2 -1"/>
+  </filter>
+  <rect width="100%" height="100%" filter="url(#grain-filter)"/>
+</svg>
