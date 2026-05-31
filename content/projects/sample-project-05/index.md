@@ -1,6 +1,6 @@
 ---
 title: "Sample Project 05"
-slug: "sample-project"
+slug: "sample-project-05"
 date: 2026-05-31
 draft: false
 
