@@ -46,4 +46,4 @@
 <script type="application/ld+json">{{ $jsonld | jsonify (dict "indent" "  ") | safeJS }}</script>
 {{ end }}
 
-<link rel="icon" href="/favicon.ico">
+<link rel="icon" href="{{ urls.JoinPath site.BaseURL "/favicon.ico" }}">

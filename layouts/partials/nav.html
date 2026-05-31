@@ -19,7 +19,7 @@
       {{- if and $isSVG (fileExists $logoPath) -}}
         {{ readFile $logoPath | safeHTML }}
       {{- else if fileExists $logoPath -}}
-        <img src="{{ $logoURL }}" alt="" width="44" height="44">
+        <img src="{{ urls.JoinPath site.BaseURL $logoURL }}" alt="" width="44" height="44">
       {{- else -}}
         {{ partial "placeholder.html" (dict "kind" "square" "label" "Logo") }}
       {{- end -}}
@@ -33,7 +33,7 @@
 
     <div class="nav__actions">
       {{ if $hasResume }}
-        <a class="nav__cta" href="{{ $resumeURL }}" download>Resume</a>
+        <a class="nav__cta" href="{{ urls.JoinPath site.BaseURL $resumeURL }}" download>Resume</a>
       {{ end }}
 
       <button class="nav__toggle" type="button"
