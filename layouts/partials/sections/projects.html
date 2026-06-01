@@ -2,7 +2,10 @@
        Cards without a cover.* file in their bundle render a 16:9 placeholder.
        Tab + pagination behaviour is driven by assets/js/modules/projects.js. */ -}}
 {{- $site := hugo.Data.site -}}
-{{- $projects := where site.RegularPages "Section" "projects" -}}
+{{- /* Canonical project order is the `weight` front-matter field (ascending).
+       The grid, category filtering, and the detail-page prev/next nav all
+       follow this single order. */ -}}
+{{- $projects := (where site.RegularPages "Section" "projects").ByWeight -}}
 
 {{- /* Tab definitions: label + category key matched against project front matter */ -}}
 {{- $tabs := slice

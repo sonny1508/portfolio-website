@@ -67,3 +67,12 @@
 .contact__socials .icon {
   display: block;
 }
+
+/* ---- Footer credit ---- */
+.contact__credit {
+  margin: var(--space-12) 0 0;
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}

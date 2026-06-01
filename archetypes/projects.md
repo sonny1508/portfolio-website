@@ -3,6 +3,7 @@ title: "{{ replace .File.ContentBaseName `-` ` ` | title }}"
 slug: "{{ .File.ContentBaseName }}"
 date: {{ .Date }}
 draft: true
+weight: 99                  # global display order (asc) — grid + prev/next follow this
 
 # Card body — 2-3 sentences
 summary: ""
@@ -20,9 +21,8 @@ stack:  ""
 period: ""                  # e.g. "2024 — Present"
 status: ""                  # e.g. "In production"
 
-# Footer nav — slug of adjacent projects, both optional
-related_prev: ""
-related_next: ""
+# Footer prev/next is automatic — it follows the global `weight` order and
+# wraps around (first ↔ last). No per-project linking needed.
 
 # Optional: override default OG image (defaults to cover.*)
 og_image: ""

@@ -117,50 +117,15 @@
   color: var(--color-cream);
 }
 
-/* ---- Mobile toggle ---- */
-.nav__toggle {
-  display: none;
-  font-size: var(--text-sm);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid currentColor;
-  border-radius: 999px;
-}
-
+/* ---- Mobile ----
+   No hamburger menu. The section links are dropped entirely on small
+   screens — only the logo (home) and the Resume button remain. */
 @media (max-width: 720px) {
-  .nav__toggle { display: inline-flex; }
+  .nav__links { display: none; }
 
   /* Tighter pill on small screens */
   .nav__cta {
     font-size: var(--text-sm);
     padding: var(--space-2) var(--space-4);
-  }
-
-  .nav__links {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    background: inherit;
-    color: inherit;
-    padding: var(--space-4) var(--container-pad);
-    border-top: 1px solid currentColor;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-8px);
-    transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
-  }
-  .nav__links a {
-    display: block;
-    padding-block: var(--space-3);
-  }
-  .nav.is-menu-open .nav__links {
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
   }
 }

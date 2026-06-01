@@ -118,8 +118,8 @@
   box-shadow: 0 6px 16px rgba(36, 16, 64, 0.16);
   z-index: 2;
 }
-.page-btn--prev { left: calc(var(--space-12) * -1); }
-.page-btn--next { right: calc(var(--space-12) * -1); }
+.page-btn--prev { left: calc(var(--space-16) * -1); }
+.page-btn--next { right: calc(var(--space-16) * -1); }
 
 /* Hidden state — opacity 0 + no pointer events, per spec */
 .page-btn[hidden] {

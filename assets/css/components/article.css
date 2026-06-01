@@ -7,9 +7,11 @@
 .project {
   padding-top: calc(var(--nav-height) + var(--space-12));
   padding-bottom: var(--space-24);
-  position: relative;
-  z-index: 2;
 }
+/* No z-index / stacking context here on purpose: the article's cream
+   background (from data-mode) must stay BELOW the fixed orb canvas (z-index 1)
+   so the orbs + grain show through, same as the home page sections. The
+   .article-column children carry their own z-index: 2 to keep text on top. */
 
 /* Common article-column block spacing */
 .project > .article-column + .article-column { margin-top: var(--space-10); }
@@ -74,7 +76,13 @@
   filter: drop-shadow(0 14px 30px rgba(36, 16, 64, 0.18));
 }
 
-/* ---- Prose ---- */
+/* ---- Prose ----
+   The reading column narrows to --article-column for line-length comfort,
+   while the wider blocks (hero, cover, tags, footer nav) keep the main-page
+   container width set on .article-column in shared.css. */
+.prose.article-column {
+  max-width: var(--article-column);
+}
 .prose {
   font-size: var(--text-lg);
   line-height: 1.7;

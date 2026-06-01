@@ -1,8 +1,8 @@
 {{ define "main" }}
-{{- /* Project detail stub — full editorial layout lands in the UI phase.
-       All blocks must share --article-column max-width and be horizontally centered
-       per SPEC §Known Issues. */ -}}
-<article class="project">
+{{- /* Project detail page. Blocks use the .article-column wrapper, which is
+       centered and matches the main-page container width; the prose column
+       narrows for readability (see assets/css/components/article.css). */ -}}
+<article class="project" data-mode="cream" data-section>
   <div class="article-column">
     <p class="back-link"><a href="{{ site.Home.RelPermalink }}#projects">← Back to projects</a></p>
     <p class="section-label">{{ .Params.category }} · Case Study</p>
@@ -45,26 +45,36 @@
     </div>
   {{- end -}}
 
-  {{- /* Footer prev/next nav — resolves slugs from front matter */ -}}
-  <div class="article-column project-nav">
-    {{ with .Params.related_prev }}
-      {{ $p := site.GetPage (printf "projects/%s" .) }}
-      {{ with $p }}
-        <a class="project-nav__prev" href="{{ .RelPermalink }}">
+  {{- /* Footer prev/next nav — derived automatically from the global project
+         order (weight ascending, same as the Projects grid). Wraps around:
+         the first project's "previous" is the last, and vice versa. */ -}}
+  {{- $ordered := (where site.RegularPages "Section" "projects").ByWeight -}}
+  {{- $n := len $ordered -}}
+  {{- if gt $n 1 -}}
+    {{- $cur := -1 -}}
+    {{- range $i, $p := $ordered -}}
+      {{- if eq $p.RelPermalink $.RelPermalink -}}{{- $cur = $i -}}{{- end -}}
+    {{- end -}}
+    {{- if ge $cur 0 -}}
+      {{- $prev := index $ordered (mod (sub (add $cur $n) 1) $n) -}}
+      {{- $next := index $ordered (mod (add $cur 1) $n) -}}
+      <div class="article-column project-nav">
+        <a class="project-nav__prev" href="{{ $prev.RelPermalink }}">
           <span class="project-nav__label">← Previous Project</span>
-          <span class="display">{{ .Title }}</span>
+          <span class="display">{{ $prev.Title }}</span>
         </a>
-      {{ end }}
-    {{ end }}
-    {{ with .Params.related_next }}
-      {{ $n := site.GetPage (printf "projects/%s" .) }}
-      {{ with $n }}
-        <a class="project-nav__next" href="{{ .RelPermalink }}">
+        <a class="project-nav__next" href="{{ $next.RelPermalink }}">
           <span class="project-nav__label">Next Project →</span>
-          <span class="display">{{ .Title }}</span>
+          <span class="display">{{ $next.Title }}</span>
         </a>
-      {{ end }}
-    {{ end }}
-  </div>
+      </div>
+    {{- end -}}
+  {{- end -}}
 </article>
+
+{{- /* Contact section — mirrors the home page so visitors can reach out
+       without going back. Purple section; nav contrast flips here. */ -}}
+<section id="contact" data-mode="purple" data-section>
+  {{ partial "sections/contact.html" . }}
+</section>
 {{ end }}

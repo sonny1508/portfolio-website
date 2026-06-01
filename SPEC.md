@@ -168,7 +168,7 @@ Contents:
 - Left: logo image (square, 44px, links to `#profile`)
 - Right: five nav links (Profile / Projects / Experience / Skills / Contact). Uppercase, letter-spaced 0.12em, font size `--text-sm`.
 
-Mobile (<720px): nav links collapse into a "Menu" toggle button. Clicking a link auto-closes the menu.
+Mobile (<720px): the section links are hidden entirely — only the logo (home) and the Resume button remain. No hamburger/toggle menu (the site is short enough that the in-page links aren't needed on small screens).
 
 ### Profile (Hero)
 
@@ -261,7 +261,9 @@ Center-aligned, vertical layout:
 - Email as italic underlined link, large
 - Row of three social circles (GitHub, LinkedIn, itch.io) — inline SVG icons in bordered circles. On hover: invert to cream fill with purple icon.
 
-**No traditional footer** with logo/contact details. The Contact section IS the footer.
+**No traditional footer** with logo/contact details. The Contact section IS the footer. It closes with a single small credit line (`© <year> <name> · Built with Hugo`), centered and low-opacity — the year and name are rendered dynamically.
+
+The Contact section is also rendered at the bottom of each **project detail page**, so visitors can reach out without navigating back.
 
 ---
 
@@ -271,7 +273,7 @@ Each project gets its own page at `/projects/[slug]/`.
 
 ### Layout
 
-**All content lives within `--article-column` (880px) max-width and must be horizontally centered** within the outer container. The cover image, hero metadata, body prose, article tags, and footer nav row all share this width and these left/right edges.
+All content blocks are horizontally centered within the outer container. The hero metadata, cover image, article tags, and footer nav row use the **main-page container width (`--container-max`, 1200px)** so the detail page reads 1:1 with the home page. The long-form **prose column narrows to `--article-column` (880px)** for comfortable line length, centered on the same axis as the wider blocks.
 
 ### Hero
 
@@ -310,7 +312,7 @@ Below prose, separated by top border. Tag pill style, listing technologies and t
 
 ### Project Footer Nav
 
-Above-the-fold-ending links to previous and next project. Two-column grid (stacks on mobile).
+Links to the previous and next project, derived automatically from the global project order (`weight` ascending — see Content Schema). The order **wraps around**: the first project's "previous" is the last, and the last project's "next" is the first. No per-project linking. Two-column grid (stacks on mobile).
 
 Each cell:
 - Small label — "← Previous Project" / "Next Project →" (uppercase, letter-spaced, low opacity)
@@ -335,9 +337,9 @@ All JavaScript should be **vanilla**. No frameworks required.
 - Switching tabs resets to page 1
 - Prev/Next buttons hide entirely (not just disable) when at the start/end of pagination
 
-### Mobile menu
+### Mobile nav
 
-Toggle button shows/hides the link list. Clicking a link auto-closes the menu.
+No toggle/menu. Below 720px the section links are hidden via CSS; the logo and Resume button stay. Nav links are absolute (`home/#section`) so they route correctly from project detail pages — except sections that also exist on the current page (Contact), which scroll locally.
 
 ### Scroll reveal
 
@@ -354,7 +356,7 @@ Each section fades in + translates up slightly when first entering the viewport.
 Two breakpoints:
 
 - **820px** — main layout transition. Two-column grids (hero, experience, skills) collapse to single column. Hero photo caps to smaller size.
-- **720px** — mobile. Nav links collapse to hamburger. Project grid goes single-column. Pagination buttons move inline below the grid (no longer absolutely positioned on the sides).
+- **720px** — mobile. Nav section links are hidden (logo + Resume only). Project grid goes single-column. Pagination buttons move inline below the grid (no longer absolutely positioned on the sides).
 
 All sizes between scale fluidly via `clamp()` on display type.
 
@@ -370,6 +372,7 @@ When choosing a content/data model during the build, each entity needs (at minim
 title: string
 slug: string                    # url segment
 date: YYYY-MM-DD                # for sorting only, never displayed
+weight: int                     # global display order (asc); drives grid + footer prev/next
 category: enum                  # infra | tooling | game | art
 tags: string[]                  # free-form, displayed on card and article
 summary: string                 # 2-3 sentence card body
@@ -379,8 +382,6 @@ stack: string                   # facts strip
 period: string                  # facts strip, e.g. "2024 — Present"
 status: string                  # facts strip, e.g. "In production"
 body: markdown                  # the article body
-related_prev: slug?             # for footer nav
-related_next: slug?
 ```
 
 ### Experience entry
@@ -432,9 +433,7 @@ photo: path                     # B&W portrait for hero
 
 ## Known Issues to Fix in Production Build
 
-Two items deliberately not fixed in the mockup — address these in the production build:
-
-1. **Project Detail article column is left-aligned, should be centered.** All elements using `max-width: var(--article-column)` (cover, prose, hero lede, facts, article-tags, footer row) need horizontal centering — `margin-left: auto; margin-right: auto;` or equivalent. Currently they sit flush with the container's left padding.
+1. ~~**Project Detail article column is left-aligned, should be centered.**~~ *Resolved.* The article blocks are now centered via `margin-inline: auto` on `.article-column` (see Project Detail § Layout for the current width model).
 
 2. **One of the three orbs has its pivot too close to the page center.** The middle-right orb needs to be pushed further toward the right edge so its center sits past the viewport boundary. **All three orb pivots must sit on or beyond the viewport edges** — only the soft outer bloom should be visible inside the content area.
 

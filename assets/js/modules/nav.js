@@ -10,7 +10,7 @@
 //    is currently reading. Underline + opacity follow this, independent
 //    of the nav background.
 //
-// 3) Mobile menu toggle + auto-close.
+// Nav links are always visible (no mobile hamburger).
 
 const NAV_HEIGHT_VAR = "--nav-height";
 
@@ -28,13 +28,14 @@ export function initNav() {
   const nav = document.querySelector("[data-nav]");
   if (!nav) return;
 
+  const links = Array.from(nav.querySelectorAll("[data-nav-link]"));
+  // Key by the hash fragment only (e.g. "#projects"). Hrefs are absolute to
+  // the home page (e.g. "/#projects") so they route from detail pages, so we
+  // can't match on the full href.
+  const linkByHash = new Map(links.map((a) => [a.hash, a]));
+
   const sections = Array.from(document.querySelectorAll("[data-section]"));
   if (!sections.length) return;
-
-  const links = Array.from(nav.querySelectorAll("[data-nav-link]"));
-  const linkByHash = new Map(
-    links.map((a) => [a.getAttribute("href"), a])
-  );
 
   // ---- 1) Contrast: which section sits under the nav band? ----
   function applyContrastFor(section) {
@@ -98,19 +99,4 @@ export function initNav() {
     { rootMargin: "-50% 0px -50% 0px", threshold: 0 }
   );
   sections.forEach((s) => activeObserver.observe(s));
-
-  // ---- 3) Mobile menu ----
-  const toggle = nav.querySelector("[data-nav-toggle]");
-  if (toggle) {
-    toggle.addEventListener("click", () => {
-      const isOpen = nav.classList.toggle("is-menu-open");
-      toggle.setAttribute("aria-expanded", String(isOpen));
-    });
-    nav.querySelectorAll("[data-nav-menu] a").forEach((a) => {
-      a.addEventListener("click", () => {
-        nav.classList.remove("is-menu-open");
-        toggle.setAttribute("aria-expanded", "false");
-      });
-    });
-  }
 }

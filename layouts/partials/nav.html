@@ -4,6 +4,11 @@
          - .svg path  → readFile + inline so currentColor follows the nav mode
          - other      → <img> (PNG/JPG render at fixed dimensions, no color flip) */ -}}
 {{- $site := hugo.Data.site -}}
+{{- $isHome := .IsHome -}}
+{{- $home := site.Home.RelPermalink -}}
+{{- /* Sections that also exist on non-home pages (project detail) and so
+       should scroll locally rather than route back to the home page. */ -}}
+{{- $localHrefs := slice "#contact" -}}
 {{- $logoURL := $site.logo -}}
 {{- $logoPath := printf "static%s" $logoURL -}}{{/* e.g. "static/img/logo.png" */}}
 {{- $isSVG := hasSuffix (lower $logoURL) ".svg" -}}
@@ -15,7 +20,7 @@
 
 <nav class="nav" data-nav aria-label="Primary">
   <div class="container nav__inner">
-    <a class="nav__logo" href="#profile" aria-label="Home">
+    <a class="nav__logo" href="{{ site.Home.RelPermalink }}#profile" aria-label="Home">
       {{- if and $isSVG (fileExists $logoPath) -}}
         {{ readFile $logoPath | safeHTML }}
       {{- else if fileExists $logoPath -}}
@@ -25,9 +30,17 @@
       {{- end -}}
     </a>
 
-    <ul class="nav__links" id="nav-menu" data-nav-menu>
+    <ul class="nav__links">
       {{ range $site.nav }}
-        <li><a href="{{ .href }}" data-nav-link>{{ .label }}</a></li>
+        {{- /* On the home page every section is local. On other pages
+               (project detail) anchors route back to the home page and then
+               scroll — except sections that also exist on the current page
+               (e.g. Contact), which stay local. */ -}}
+        {{- $href := .href -}}
+        {{- if and (not $isHome) (not (in $localHrefs .href)) -}}
+          {{- $href = printf "%s%s" $home .href -}}
+        {{- end -}}
+        <li><a href="{{ $href }}" data-nav-link>{{ .label }}</a></li>
       {{ end }}
     </ul>
 
@@ -35,12 +48,6 @@
       {{ if $hasResume }}
         <a class="nav__cta" href="{{ urls.JoinPath site.BaseURL $resumeURL }}" download>Resume</a>
       {{ end }}
-
-      <button class="nav__toggle" type="button"
-              aria-expanded="false" aria-controls="nav-menu"
-              data-nav-toggle>
-        <span class="nav__toggle-label">Menu</span>
-      </button>
     </div>
   </div>
 </nav>

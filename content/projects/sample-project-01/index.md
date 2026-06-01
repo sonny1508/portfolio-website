@@ -3,6 +3,7 @@ title: "Sample Project 01"
 slug: "sample-project-01"
 date: 2026-05-31
 draft: false
+weight: 1                   # global display order (asc); drives grid + prev/next
 
 summary: "A placeholder project showing the content shape. Replace with a real case study to validate the layout end-to-end."
 lede: "A throwaway example so the build has something to render until real projects move in."
@@ -14,9 +15,6 @@ role: "Author"
 stack: "Markdown, Hugo shortcodes"
 period: "2026 — Present"
 status: "Placeholder"
-
-related_prev: ""
-related_next: ""
 ---
 
 ## What this is

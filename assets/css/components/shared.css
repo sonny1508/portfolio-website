@@ -54,10 +54,13 @@
 }
 [data-mode="purple"] .tag { border-color: var(--color-line-on-purple); }
 
-/* ---- Article column: 880px centered, shared by project detail blocks ----
+/* ---- Article column: centered, shared by project detail blocks ----
+   Matches the main page's container width (--container-max) so the detail
+   page reads 1:1 with the home page. The long-form prose narrows to
+   --article-column for readability (see article.css).
    z-index: 2 mirrors .container — keeps article content above the orb canvas. */
 .article-column {
-  max-width: var(--article-column);
+  max-width: var(--container-max);
   margin-inline: auto;
   padding-inline: var(--container-pad);
   position: relative;

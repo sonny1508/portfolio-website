@@ -36,6 +36,15 @@ This creates `content/projects/my-new-thing/index.md` with the full front
 matter template (from `archetypes/projects.md`). Set `draft: false` when
 ready to publish.
 
+**Ordering:** the `weight` field (ascending) is the single source of truth
+for project order. It controls the position in the home-page grid *and* the
+Previous/Next links on each detail page — which are generated automatically
+and **wrap around** (the first project's "previous" is the last, and vice
+versa). No manual prev/next linking. The order stays consistent across tab
+filters: switching categories only hides cards, it never reorders them. New
+projects scaffold with `weight: 99` — give each a distinct weight to slot it
+where you want.
+
 ### 2. Drop media in the same folder
 
 The bundle is a single directory that contains the markdown **plus all
