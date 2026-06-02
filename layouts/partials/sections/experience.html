@@ -10,7 +10,7 @@
         <article class="exp-item">
           <h4 class="display">{{ .title }}</h4>
           <p class="exp-meta">{{ .start }} — {{ .end }} · {{ .organization }} · {{ .location }}</p>
-          <p>{{ .description }}</p>
+          <div class="exp-description">{{ .description | markdownify }}</div>
         </article>
       {{ end }}
     </div>
@@ -20,7 +20,7 @@
         <article class="exp-item">
           <h4 class="display">{{ .title }}</h4>
           <p class="exp-meta">{{ .start }} — {{ .end }} · {{ .organization }} · {{ .location }}</p>
-          <p>{{ .description }}</p>
+          <div class="exp-description">{{ .description | markdownify }}</div>
         </article>
       {{ end }}
     </div>
