@@ -7,8 +7,12 @@
 //   when at the start/end of pagination, not just disabled.
 // - Ghost slots are appended to make every page occupy the full 4-slot
 //   grid shape, so height doesn't jump between a full page and a partial one.
+// - Page/tab changes fade the grid out, swap content, then fade back in
+//   so switching feels smooth rather than an instant jump. Honors
+//   prefers-reduced-motion by skipping the fade.
 
 const PAGE_SIZE = 4;
+const FADE_MS = 200; // matches --dur-fast
 
 export function initProjects() {
   const root = document.querySelector("[data-projects]");
@@ -36,8 +40,34 @@ export function initProjects() {
     return t;
   })();
 
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
   let activeTab = "all";
   let page = 1;
+  let switching = false;
+
+  // Fade the grid out, run the mutation + re-render while it's hidden,
+  // then fade back in. Under reduced motion just swap instantly.
+  function transition(mutate) {
+    if (reduceMotion) {
+      mutate();
+      render();
+      return;
+    }
+    if (switching) return;
+    switching = true;
+    grid.classList.add("is-switching");
+    window.setTimeout(() => {
+      mutate();
+      render();
+      requestAnimationFrame(() => {
+        grid.classList.remove("is-switching");
+        switching = false;
+      });
+    }, FADE_MS);
+  }
 
   function filtered() {
     if (activeTab === "all") return cards;
@@ -89,27 +119,25 @@ export function initProjects() {
 
   tabs.forEach((btn) => {
     btn.addEventListener("click", () => {
-      tabs.forEach((t) => {
-        t.classList.remove("is-active");
-        t.setAttribute("aria-selected", "false");
+      if (btn.dataset.tab === activeTab) return;
+      transition(() => {
+        tabs.forEach((t) => {
+          t.classList.remove("is-active");
+          t.setAttribute("aria-selected", "false");
+        });
+        btn.classList.add("is-active");
+        btn.setAttribute("aria-selected", "true");
+        activeTab = btn.dataset.tab;
+        page = 1;
       });
-      btn.classList.add("is-active");
-      btn.setAttribute("aria-selected", "true");
-      activeTab = btn.dataset.tab;
-      page = 1;
-      render();
     });
   });
 
   prev.addEventListener("click", () => {
-    if (page > 1) {
-      page--;
-      render();
-    }
+    if (page > 1) transition(() => page--);
   });
   next.addEventListener("click", () => {
-    page++;
-    render();
+    transition(() => page++);
   });
 
   render();

@@ -30,7 +30,7 @@ orbs:
     top:  "-25%"     # negative pushes pivot off-canvas
     left: "-15%"
     blur: 36         # px blur radius
-    duration: 24     # seconds per loop
+    duration: 20     # seconds per loop
     keyframes: "float-a"
 
   # Right edge, mid-page — pivot must sit past right edge
@@ -39,7 +39,7 @@ orbs:
     top:  "30%"
     left: "88%"
     blur: 36
-    duration: 21
+    duration: 17
     keyframes: "float-b"
 
   # Bottom-left, peeking in from below
@@ -48,7 +48,7 @@ orbs:
     top:  "85%"
     left: "-20%"
     blur: 36
-    duration: 26
+    duration: 22
     keyframes: "float-c"
 
 # ---- Grain overlay ----
