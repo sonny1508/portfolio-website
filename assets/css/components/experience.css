@@ -1,13 +1,20 @@
 /* ============================================================
-   Experience — purple section, two columns.
-   Stacks on mobile.
+   Experience — purple section, single narrow column.
+   Professional stacks above Education in one --article-column track
+   (rather than side-by-side, where the two lists differ wildly in
+   length and leave the shorter column stranded). Reads 1:1 with the
+   project detail page's centered column.
    ============================================================ */
 
+/* Section label stays at the full container width so it lines up with
+   every other section's label; only the entry list narrows + centers. */
 .experience__columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-16);
   margin-top: var(--space-12);
+  max-width: var(--article-column);
+  margin-inline: auto;
 }
 
 .col-title {
@@ -56,7 +63,6 @@
 
 @media (max-width: 820px) {
   .experience__columns {
-    grid-template-columns: 1fr;
     gap: var(--space-10);
   }
 }

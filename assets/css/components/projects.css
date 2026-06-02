@@ -37,6 +37,14 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-8);
+  transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+
+/* Mid-switch state — JS adds this while swapping page/filter so the grid
+   fades down and out, then back in once the new cards are in place. */
+.projects__grid.is-switching {
+  opacity: 0;
+  transform: translateY(8px);
 }
 
 /* ---- Card ---- */
@@ -70,6 +78,10 @@
   transform: scale(1.03);
 }
 
+/* Fixed vertical sizing — every card occupies the same height so paging
+   between projects never nudges the grid. Title is capped to 1 line, the
+   summary always reserves exactly 3 lines, and tags stay on a single row.
+   line-clamp + a matching min-height keep short content from collapsing. */
 .card__title {
   font-family: var(--font-display);
   font-style: italic;
@@ -77,6 +89,12 @@
   font-size: var(--text-2xl);
   line-height: 1.1;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 1.1em; /* 1 line */
 }
 
 .card__summary {
@@ -84,9 +102,19 @@
   line-height: 1.55;
   margin: 0;
   opacity: 0.85;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(1.55em * 3); /* always reserve 3 lines */
 }
 
-.card__tags { margin-top: var(--space-1); }
+.card__tags {
+  margin-top: var(--space-1);
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
 
 /* Hidden by filter or pagination — keep in DOM but remove from layout */
 .card[hidden] { display: none !important; }
