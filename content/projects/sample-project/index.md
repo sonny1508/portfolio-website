@@ -1,9 +1,9 @@
 ---
-title: "Sample Project 03"
-slug: "sample-project-03"
+title: "Sample Project"
+slug: "sample-project"
 date: 2026-05-31
 draft: false
-weight: 3                   # global display order (asc); drives grid + prev/next
+weight: 99                   # global display order (asc); drives grid + prev/next
 
 summary: "A placeholder project showing the content shape. Replace with a real case study to validate the layout end-to-end."
 lede: "A throwaway example so the build has something to render until real projects move in."

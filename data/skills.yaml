@@ -4,22 +4,27 @@
 
 arsenal:
   - "Infrastructure"
-  - "DevOps"
+  - "Pipeline Engineer"
   - "Tools Programmer"
+  - "Technical Artist"
   - "Game Developer"
-  - "Technical Art"
+  - "DevOps"
   - "System Admin"
 
 technical:
   - name: "Infrastructure & Systems"
-    tags: ["Linux", "nginx", "k3s", "Ansible", "Active Directory", "PDQ Deploy", "Frappe", "Helix/Perforce"]
+    tags: ["Linux", "nginx", "k3s", "Active Directory", "PDQ Deploy"]
+  - name: "Version Control"
+    tags: ["Helix/Perforce", "Git", "SVN"]
   - name: "CI/CD & Automation"
-    tags: ["GitHub Actions", "Bash", "PowerShell", "PyInstaller", "Electron Builder"]
+    tags: ["GitHub Actions", "Bash", "PowerShell", "Ansible", "PyInstaller", "Electron Builder"]
   - name: "Languages"
-    tags: ["Python", "C++", "C#", "JavaScript", "TypeScript", "SQL"]
+    tags: ["Python", "C++", "C#", "JavaScript", "TypeScript"]
+  - name: "Database"
+    tags: ["MySQL", "PostgreSQL", "MariaDB"]
   - name: "Game Engines & DCC"
-    tags: ["Unreal Engine", "Unity", "Maya", "3dsmax", "Blender"]
-  - name: "Web"
-    tags: ["HTML/CSS", "JS/TS", "Hugo", "Node"]
+    tags: ["Unreal Engine", "Unity", "Maya", "3dsmax", "Blender", "Houdini"]
+  - name: "Web & Services"
+    tags: ["HTML/CSS", "JS/TS", "Hugo", "Node", "Frappe"]
   - name: "Currently Learning"
-    tags: ["AWS Fundamentals", "Terraform", "Docker/Compose"]
+    tags: ["AWS Fundamentals", "Kubernetes", "Docker/Compose"]

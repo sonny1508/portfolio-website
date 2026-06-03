@@ -4,7 +4,7 @@
 # ============================================================
 
 name: "Sonny Nguyen"
-role_line: "Game developer, infrastructure engineer, tools programmer."
+role_line: "Infrastructure engineer, game developer, tools programmer."
 
 # Profile section assets (paths relative to /static/ root)
 photo:  "/img/portrait.jpg"   # 3:4 B&W portrait — drop yours at static/img/portrait.jpg
@@ -21,9 +21,9 @@ stats:
 # Contact section
 contact:
   email:    "sonnynguyen.0001@gmail.com"
-  github:   "https://github.com/yourhandle"
-  linkedin: "https://www.linkedin.com/in/yourhandle/"
-  itch:     "https://yourhandle.itch.io/"
+  github:   "https://github.com/sonny1508"
+  linkedin: "https://www.linkedin.com/in/sonny-nguyen-6a54501b0"
+  itch:     "https://chewy-cryptid.itch.io/waddle-detour"
   statement: "Let's build cool things together."
 
 # Nav links (Profile auto-derived from logo; rest listed here)

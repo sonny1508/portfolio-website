@@ -4,21 +4,63 @@
 # ============================================================
 
 professional:
-  - title:        "Example Role"
-    organization: "Example Studio"
-    location:     "Remote"
-    start:        "2024-01"
+  - title:        "Pipeline Technical Director"
+    organization: "Glenda Studio"
+    location:     "Ho Chi Minh city"
+    start:        "2026-Jan"
     end:          "Present"
-    description:  >
-      One- or two-sentence summary of what you did, what shipped,
-      and what was novel about how you did it.
+    description:  |
+      Own the studio's on-prem service stack end to end: two Ubuntu servers (production and dev/test) running a customized Frappe deployment for HRMS and project management and a forked Element-web for internal communications, with nginx reverse proxy, proper domain configuration, and dual-LAN supporting both offline internal and internet-facing access. Responsible for monitoring, backup, incident response, and long-term maintainability across Helix Core, Frappe, Element, the domain controller, and the deployment system.
+      
+      Lead a 3-person IT team, owning their work allocation, technical mentorship, progression, and the documentation and runbooks that let them operate independently on day-to-day systems work.
+
+      Act as the studio's primary technical voice in cross-functional planning with producers, department leads, and directors, and represent the technical side in client-facing meetings covering pipeline, delivery, and infrastructure topics.
+
+      Continue to develop pipeline tooling across Unreal Engine and DCC applications (Maya, 3ds Max, Blender) in support of active productions, and serve as architectural reviewer for all internal systems.
+  - title:        "Technical Artist"
+    organization: "Glenda Studio"
+    location:     "Ho Chi Minh city"
+    start:        "2025-Feb"
+    end:          "2026-Jan"
+    description:  |
+      Deployed and configured Helix Core (Perforce) for version control and a Windows Server Domain Controller for workstation provisioning and user policy, establishing the foundation for multi-project Unreal Engine collaboration across the studio.
+
+      Built a studio-wide deployment and automation system using Ansible on WSL (~50 playbooks) and PDQ Deploy, covering tool distribution, software updates, system monitoring, and workstation configuration.
+
+      Developed pipeline tooling across Unreal Engine and DCC applications, including Editor Utility Widgets for asset validation, import standardization, and naming convention enforcement, plus cross-DCC Python toolsets for Maya, 3ds Max, and Blender covering asset export, review, and transfer workflows.
+
+      Built an Asset Delivery System on top of the Perforce Python API for controlled P4-to-P4 asset transfer between project depots, and designed an offline asset management system modeled after Quixel Bridge for internet-independent asset ingestion.
+  - title:        "3D/VFX Artist"
+    organization: "CG Record Studio"
+    location:     "Ho Chi Minh city"
+    start:        "2024-Jun"
+    end:          "2025-Feb"
+    description:  |
+      Worked on large-scale archviz and commercial projects using Houdini-driven procedural workflows for city layouts, terrain, buildings, and asset scattering, integrated into Unreal Engine for real-time visualization.
+
+      Contributed to interior walkthroughs and large environment renders while exploring Houdini–Unreal workflows to prototype reusable environment tools, gaining hands-on experience with real-time rendering constraints and optimization.
+  - title:        "Lighting Artist"
+    organization: "Sparx Virtuos Studio"
+    location:     "Ho Chi Minh city"
+    start:        "2022"
+    end:          "2023"
+    description:  |
+      Contributed to cinematic lighting and look development using Unreal Engine and internal real-time tools, focusing on lighting setup, exposure control, and visual consistency for cinematic sequences.
+
+      Collaborated closely with artists and production teams in large, structured environments, gaining experience working across multiple disciplines. Contributed to AAA projects, including Marvel’s Spider-Man 2 (Insomniac Games).
 
 education:
-  - title:        "B.S. Example Degree"
-    organization: "Example University"
-    location:     "City, Country"
-    start:        "2020-09"
-    end:          "2024-05"
-    description:  >
-      Brief note on focus area, capstone project, or notable
-      coursework — keep this short.
+  - title:        "Bachelor of Design - Digital Media"
+    organization: "RMIT University"
+    location:     "Ho Chi Minh city"
+    start:        "2020"
+    end:          "2024"
+    description:  |
+      Multidisciplinary designer with a focus on 3D art, motion, and interactive media. Developed a versatile visual skillset spanning modelling, rendering, and digital fabrication, complemented by foundational web development knowledge in HTML, CSS, and JavaScript.
+  - title:        "Certified Associate in Python Programming"
+    organization: "Python Institute"
+    location:     "Coursera"
+    start:        "2023"
+    end:          "2024"
+    description:  |
+      Validated proficiency in core Python concepts including data structures, OOP, functions, and exception handling. Credential issued by the Python Institute via Coursera.
