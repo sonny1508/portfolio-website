@@ -86,7 +86,7 @@ Large display sizes (`--text-4xl` and `--text-5xl`) should be wrapped in `clamp(
 --container-max: 1200px      /* outer wrapper */
 --container-pad: 2rem        /* horizontal gutter */
 --article-column: 880px      /* article content column on detail pages */
---nav-height: 4.5rem         /* fixed nav reservation */
+--nav-height: 3.75rem         /* fixed nav reservation */
 ```
 
 `--article-column` is critical for the project detail page. The cover image, hero metadata, body prose, article tags, and footer navigation all share this max-width and **must be horizontally centered** within the outer container. They share the same left and right edges so the article reads as one coherent vertical column.
