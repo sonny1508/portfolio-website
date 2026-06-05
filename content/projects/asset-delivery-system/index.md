@@ -3,7 +3,7 @@ title: "Asset Delivery System"
 slug: "asset-delivery-system"
 date: 2025-09-15
 draft: false
-weight: 3
+weight: 7
 
 summary: "Clients limit us to 2-3 P4 machines per project, which made delivery a manual, lead-driven bottleneck. I built an internal P4 mirror and a pair of Python tools that move reviewed assets from artist workspaces to client depots in one changelist number, with p4 reconcile handling the rest."
 lede: "A P4-to-P4 transfer pipeline that turns multi-hour manual deliveries into a two-step changelist hop."

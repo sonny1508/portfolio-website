@@ -9,7 +9,7 @@ summary: "The studio's HRMS lived in Excel, project management was split between
 lede: "A self-hosted, deeply customized HRMS and project management platform that became the studio's central data hub."
 
 category: "platform"
-tags: ["Frappe", "Python", "Self-Hosted"]
+tags: ["Frappe", "Nginx", "Self-Hosted"]
 
 role: "Technical Owner"
 stack: "Frappe Framework, ERPNext, HRMS, Python, MariaDB, Nginx, Certbot"

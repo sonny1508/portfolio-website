@@ -3,7 +3,7 @@ title: "Helix Core Server"
 slug: "helix-core-server"
 date: 2025-04-17
 draft: false
-weight: 2
+weight: 3
 
 summary: "Deployed and administered a Helix Core (Perforce) server for a 60-person studio, replacing a legacy VCS with proper branching, Virtual Asset hosting, and cross-server sync with an external AAA client."
 lede: "Built the deployment and configuration backbone for a 60-person game studio from scratch."

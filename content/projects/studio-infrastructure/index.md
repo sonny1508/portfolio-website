@@ -3,13 +3,13 @@ title: "Studio Deployment & Infrastructure"
 slug: "studio-infrastructure"
 date: 2025-04-17
 draft: false
-weight: 1
+weight: 2
 
 summary: "Designed and built a studio-wide deployment system using Ansible, a Windows Server 2022 Domain Controller, and PDQ Deploy, covering 60+ workstations from bare metal provisioning to ongoing software management."
 lede: "Built the deployment and configuration backbone for a 60-person game studio from scratch."
 
 category: "infrastructure"
-tags: ["Ansible", "Windows Server"]
+tags: ["Ansible", "Windows Server", "PDQ Deploy"]
 
 role: "Author"
 stack: "Ansible (WSL), PDQ Deploy, Windows Server 2022, Active Directory, Group Policy"
