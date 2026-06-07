@@ -33,6 +33,8 @@ GSTools is what artists actually touch every day. **Texture Checker**, **Mesh Ch
 ENVIRONMENT_TEXTURE_RULES = {
     "BC": {"compression_settings": "TC_DEFAULT",   "srgb": True,  "size": (2048, 2048)},
     "N":  {"compression_settings": "TC_NORMALMAP", "srgb": False, "size": (2048, 2048)},
+
+    # Additiona suffix rules as per different project
 }
 ```
  
@@ -55,7 +57,9 @@ Most of the build effort went into discovering Unreal's Python API by reading do
 ## The Blueprint shift
 
 Python iterates fast but cannot give artists a content-browser-aware UI. One tool scans a level for static mesh actors matching a name pattern and lets the user drag a replacement mesh from the content browser into a slot to swap it in. There is no clean way to do that from a PySide6 window, so I rebuilt it in Blueprint, used proper component slots inside an Editor Utility Widget, and the result is faster, visually accurate, and matches the rest of the editor's interaction model. The LOD slider followed the same path when Unreal 5.7 changed the Python API and broke the original script. Rewriting it in Blueprint made it instant to invoke and removed an entire class of upgrade-fragility.
- 
+
+{{< video-mp4 src="unreal_lod_checker.mp4" caption="Unreal Engine LOD Checker tool revamped with blueprint in Editor Utility Widget" wide="true" >}}
+
 The client we work with ships a forked engine binary with custom mesh component classes and no C++ source. Most of GSAutomation works by iterating over those custom component types through Blueprint reflection and the Python API, so the tools are aware of project-specific component structures without needing engine source.
  
 What this toolset really represents is six months of compounding decisions: every project hits production with a known-good validation surface, every lead has the same automation primitives, and every artist gets the latest version of all of it just by syncing.

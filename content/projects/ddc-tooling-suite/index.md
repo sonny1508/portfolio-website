@@ -34,9 +34,11 @@ I chose server-mediated over peer-to-peer for two reasons: auditability (every t
 
 Of the Maya tools, the one artists run most is the topology checker inside the scene-wide validation tool. It covers Hard Edges, Lamina, Ngons, Non-Manifold Edges, Open Edges, Poles, Starlike, Triangles, Zero Area Faces, and Zero Length Edges. The first three (ngons, lamina, non-manifold) cover roughly 60% of the actual issues that show up in real models. The rest catch edge cases that only fail when a specific shader, exporter, or engine ingest pipeline trips over them.
 
+{{< video-mp4 src="model_checker.mp4" caption="Model Checker tool for asset's Topology validation" wide="true" >}}
+
 The wider validation tool wraps topology with checks on materials, UV layouts, UV set names, naming conventions, and pivot positions. It runs twice per asset by convention: once by the artist before sending the file to a lead, and again by the lead during QA. That contract is what the tool really enforces. The lead never has to think about naming convention or UV set numbers and can spend their review time on art.
 
-{{< video-mp4 src="model_checker.mp4" caption="Model Checker tool for asset's Topology validation" wide="true" >}}
+{{< video-mp4 src="maya_lod_checker.mp4" caption="LOD Checker tool that goes hand-in-hand with Model Checker" wide="true" >}}
 
 ## The auto-rigger
 
