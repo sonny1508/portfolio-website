@@ -35,7 +35,9 @@
 
 .projects__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  /* minmax(0, 1fr) — not bare 1fr — so the cover <img> (natural 960px wide)
+     can't force the track past its share and overflow the viewport. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-8);
   transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
 }
@@ -52,6 +54,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  min-width: 0; /* allow the card to shrink below its content's min-content */
   text-decoration: none;
   color: inherit;
   transition: transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
@@ -170,7 +173,7 @@
 /* ---- Responsive ---- */
 @media (max-width: 720px) {
   .projects__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-10);
   }
   /* Pagination buttons move inline below the grid */
@@ -190,4 +193,15 @@
   .page-btn--prev { order: 2; }
   .projects__grid { order: 1; }
   .page-btn--next { order: 3; }
+
+  /* Single-column on mobile — no 2-up grid to keep aligned, so let the
+     summary show its full text and grow as the card narrows instead of
+     clamping to a fixed line count and cutting content off. */
+  .card__summary {
+    display: block;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    overflow: visible;
+    min-height: 0;
+  }
 }

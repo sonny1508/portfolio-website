@@ -46,7 +46,14 @@
 
 @media (max-width: 820px) {
   .skills__columns {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-12);
   }
+}
+
+/* Small phones — the chunky pills are nowrap, so a long label like
+   "Pipeline Engineer" at --text-xl would overrun a ~320px screen.
+   Drop the size so every pill fits without breaking the page width. */
+@media (max-width: 480px) {
+  .arsenal__pill { font-size: var(--text-base); }
 }

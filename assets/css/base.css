@@ -11,6 +11,12 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Full-width safety net — never allow horizontal scroll on any device.
+   Real overflow sources are fixed at the source; this guards against any
+   future stray wide element. `clip` (not `hidden`) keeps sticky/anchor
+   scrolling intact. */
+html, body { overflow-x: clip; }
+
 body {
   margin: 0;
   background: var(--color-cream);

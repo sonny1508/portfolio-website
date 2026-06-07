@@ -13,3 +13,8 @@
   z-index: 2;
   mix-blend-mode: overlay;
 }
+
+/* Mobile — drop the grain overlay alongside the orbs (see orbs.css). */
+@media (max-width: 720px) {
+  .grain { display: none; }
+}

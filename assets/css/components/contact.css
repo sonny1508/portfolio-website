@@ -32,6 +32,15 @@
   font-style: italic;
   font-size: var(--text-2xl);
   margin: 0;
+  max-width: 100%;
+  /* The address is one long unbreakable token; let it wrap instead of
+     forcing the page wider than the viewport on narrow phones. */
+  overflow-wrap: anywhere;
+}
+/* Drop the size on small screens so the address reads on one or two clean
+   lines rather than breaking mid-word. */
+@media (max-width: 480px) {
+  .contact__email { font-size: var(--text-lg); }
 }
 .contact__email a {
   border-bottom: 1px solid currentColor;

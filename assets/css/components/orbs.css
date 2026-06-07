@@ -89,3 +89,10 @@
 @media (prefers-reduced-motion: reduce) {
   .orb-group { animation: none !important; }
 }
+
+/* Mobile — drop the orb canvas entirely. The large blurred circles with
+   blend modes are costly on phones and add nothing once sections are
+   flat cream/purple. Sections keep their data-mode background colors. */
+@media (max-width: 720px) {
+  .bg-canvas { display: none; }
+}
