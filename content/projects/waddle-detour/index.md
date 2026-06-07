@@ -5,7 +5,7 @@ date: 2026-06-05
 draft: false
 weight: 6
 
-summary: "Craft your own solution to help Waddly the penguin reach his destination by combining and stacking blocks in this cozy yet extremely challenging puzzle game. I am the sole programmer, taking the project from an inherited idea-validation prototype to a Steam demo with full release in the next 1-2 months."
+summary: "Turn-based puzzle platformer where players stack blocks to guide a penguin to the goal. Sole programmer, taking an inherited prototype to a Steam release: architecture, state machines, block system, and build pipeline in Unity 6."
 lede: "A turn-based puzzle platformer launching on Steam, built sole-programmer over an inherited idea-validation prototype."
 
 category: "product"

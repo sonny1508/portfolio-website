@@ -5,7 +5,7 @@ date: 2025-06-15
 draft: false
 weight: 11
 
-summary: "A pair of offline asset browsers I built so artists on air-gapped machines could use the studio's Megascans and Substance libraries. The story of going from a slow file-crawling tool to a precomputed database, learning threading and caching along the way."
+summary: "A pair of offline asset browsers letting artists on air-gapped machines use the studio's Megascans and Substance libraries. Going from a slow file-crawling tool to a precomputed database, learning threading and caching along the way."
 lede: "Turning two terabytes of locked-up assets into something an offline artist can actually browse."
 
 category: "tooling"
@@ -34,6 +34,7 @@ I built the Megascans browser first, in Python with **PySide6**. Each asset ship
 The Substance library came second and reused everything I learned from the first. Because it runs inside Painter, it could go further than opening a folder: clicking an asset calls the **Substance 3D Painter Python API** to drop the .sbsar straight into the current session's shelf. In hindsight a single tool managing both libraries would have been cleaner, and that is on the rework list.
 
 <!-- VISUAL 2: the Substance material library tool docked inside Painter, with a material being clicked into the shelf -->
+{{< video-mp4 src="substance_material_manager.mp4" caption="Material Manager (library tool) inside Substance Painter" wide="true" >}}
 
 ## The road to a cache
 

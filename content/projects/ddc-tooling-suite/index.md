@@ -28,7 +28,6 @@ The cross-DCC shuttle is the most-used tool that artists don't think about. Thre
 I chose server-mediated over peer-to-peer for two reasons: auditability (every transfer is visible from one place) and the fact that heavier files like full Maya scenes should travel through Perforce changelists anyway, not through a tool meant for component handoffs. The current setup is two buttons, sender and receiver, and it has held up well in production.
 
 <!-- VISUAL 2: GS File Transfer UI in Maya, showing the live artist list and the send/receive flow. The Blender and 3ds Max variants alongside if space permits, to show the three versions sharing the same data layer. -->
-
 {{< figure src="gs_file_transfer.png" caption="GS File Transfer in Maya - Blender - 3ds Max" >}}
 
 ## The topology validator
@@ -37,11 +36,14 @@ Of the Maya tools, the one artists run most is the topology checker inside the s
 
 The wider validation tool wraps topology with checks on materials, UV layouts, UV set names, naming conventions, and pivot positions. It runs twice per asset by convention: once by the artist before sending the file to a lead, and again by the lead during QA. That contract is what the tool really enforces. The lead never has to think about naming convention or UV set numbers and can spend their review time on art.
 
+{{< video-mp4 src="model_checker.mp4" caption="Model Checker tool for asset's Topology validation" wide="true" >}}
+
 ## The auto-rigger
 
 The deepest single Maya tool in the suite, written for the same vehicle pipeline the Unreal Asset Organizer feeds. Vehicles are hardsurface, not characters, so the rigging problem is more tractable than it sounds: bones map to named components, and where two bones share influence over a single component the **volume value** defined per bone resolves the split. The artist places a premade skeleton onto the mesh, presses one button, and the tool walks the bone list, finds each component by name, applies skinning with the correct constraint and volume, and writes the rig. Most artists never touch weight painting again. The occasional cleanup pass handles the edge cases. For artists who genuinely don't enjoy rigging (which is most of the ones doing vehicle work), the bottleneck moved from "do you know how to rig" to "have you placed the bones correctly", which is a much shorter learning curve.
 
 <!-- VISUAL 3: Before / after on a vehicle, ideally showing the premade skeleton placed on the mesh on the left, and the auto-rigged result with weight painting visible on the right. The vehicle context ties this card visually to the Unreal Asset Organizer card. -->
+{{< video-mp4 src="bike_rig.mp4" caption="Bike Auto-rigger tool in action" wide="true" >}}
 
 ## The cross-pipeline chain
 

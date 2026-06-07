@@ -53,6 +53,7 @@ Two things stand out from that phase. The first was the moment I realized my Uni
 The second was a hue variation function that drove subtle color shifts across the interior lights. It did not run inside the Unity editor at all. It only worked once the project was built and deployed to an Android device. That meant any iteration on the hue logic required a full build to verify. I set up the **Gradle** configuration, learned the part of Android Studio I needed to build and run the project on a virtual device, and from there the loop tightened: change the function, build, deploy, observe on device, and hand any model-side adjustments back to the art team.
 
 <!-- VISUAL 3: side-by-side editor view vs. Android build view showing the rendering difference, or a screenshot of the Frame Debugger / Gradle build setup -->
+{{< figure src="device_preview.png" caption="Android device view" >}}
 
 ## What this project gave me
 

@@ -44,7 +44,6 @@ The second was the project management side. I overrode ERPNext's **Task** DocTyp
 The third front was the hosting layer, which was my first real time inside **nginx**. I configured the reverse proxy to sit in front of Frappe, set up **Certbot** for automatic **TLS** renewal, and wired the domain through the Domain Controller's **DNS** Manager so artists can reach the same URL whether they are in the office or working remotely. The DNS work matters more than it sounds, since memorizing a domain instead of an IP is the difference between artists actually using a tool and not.
  
 <!-- Visual 3: Either the server rack / hardware photo, or a clean view of the nginx config and TLS setup, or the Element notification arriving in a chat room when a task hits review state. Whichever best communicates "this is a real production service, not a prototype." -->
-
 {{< figure src="webhook_notification.png" caption="Frappe running webhooks to our chat platform for Task Status notifications" >}}
 
 ## Rollout and Iteration
