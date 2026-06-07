@@ -1,5 +1,5 @@
 ---
-title: "Element-Web"
+title: "Element-web"
 slug: "element-web"
 date: 2026-02-15
 draft: false

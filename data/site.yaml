@@ -4,12 +4,12 @@
 # ============================================================
 
 name: "Sonny Nguyen"
-role_line: "Infrastructure engineer, game developer, tools programmer."
+role_line: "Infrastructure engineer, game developer, tools programmer, and technical artist."
 
 # Profile section assets (paths relative to /static/ root)
 photo:  "/img/portrait.jpg"   # 3:4 B&W portrait — drop yours at static/img/portrait.jpg
 logo:   "/img/logo.png"       # 44px square nav logo. SVG inlines + color-flips; PNG/JPG render as img.
-resume: "/resume.pdf"     # Optional. Button hides if file missing. File lives at static/resume.pdf.
+resume: "/resume_sonnynguyen.pdf"     # Optional. Button hides if file missing. File lives at static/resume.pdf.
 
 # Stats strip (4 tiles, mobile reflows to 2x2)
 stats:
@@ -24,7 +24,9 @@ contact:
   github:   "https://github.com/sonny1508"
   linkedin: "https://www.linkedin.com/in/sonny-nguyen-6a54501b0"
   itch:     "https://chewy-cryptid.itch.io/waddle-detour"
-  statement: "Let's build cool things together."
+  statement: |
+    I build the systems
+    Then I ship the game
 
 # Nav links (Profile auto-derived from logo; rest listed here)
 nav:
@@ -38,5 +40,5 @@ nav:
 section_labels:
   projects:   "01 — Selected Work"
   experience: "02 — Where I've Worked"
-  skills:     "03 — Arsenal"
+  skills:     "03 — Capabilities"
   contact:    "04 — Get in Touch"

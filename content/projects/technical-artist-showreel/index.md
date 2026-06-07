@@ -20,6 +20,7 @@ status: "Completed"
 This reel covers roughly two years of visual work between 2023 and 2025, when my focus was lighting, rendering, and shader authoring across Unreal Engine and Houdini. It is the era directly before the pivot into infrastructure and tools, kept here for range and as a reference point on the visual side of the craft. The video runs about ninety seconds. The writing below goes deep on the two pieces that warrant it and stays brief on the rest.
 
 <!-- VISUAL 1: the reel itself, embedded as the page hero directly under the lede -->
+{{< video-youtube id="0DKR2ImHCW8" caption="Technical Artist showreel" >}}
 
 ## Ocean shader system
 

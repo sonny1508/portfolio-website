@@ -54,7 +54,7 @@
               {{ if eq $cover.MediaType.SubType "mp4" }}
                 <video src="{{ $cover.RelPermalink }}" autoplay muted loop playsinline aria-hidden="true"></video>
               {{ else }}
-                {{ $thumb := $cover.Fill "960x540 Smart" }}
+                {{ $thumb := $cover.Resize "960x" }}
                 <img src="{{ $thumb.RelPermalink }}" alt="" loading="lazy"
                      width="{{ $thumb.Width }}" height="{{ $thumb.Height }}">
               {{ end }}

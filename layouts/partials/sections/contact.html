@@ -4,7 +4,7 @@
 {{- $c := hugo.Data.site.contact -}}
 <div class="container contact">
   <p class="section-label">{{ hugo.Data.site.section_labels.contact }}</p>
-  <h2 class="contact__statement">{{ $c.statement }}</h2>
+  <h2 class="contact__statement">{{ $c.statement | strings.TrimSpace | replaceRE `\n+` "<br>" | safeHTML }}</h2>
   <p class="contact__email">
     <a href="mailto:{{ $c.email }}">{{ $c.email }}</a>
   </p>

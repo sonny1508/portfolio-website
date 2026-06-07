@@ -14,7 +14,7 @@ tags: ["Python", "PySide6", "SQLite", "Substance Painter"]
 role: "Sole designer and developer"
 stack: "Python, PySide6, SQLite, Substance 3D Painter Python API, Ansible and PDQ deployment"
 period: "2025"
-status: "Active"
+status: "Completed"
 ---
 
 This was one of the first systems I built at the studio, before the Helix Core server, when there was almost no shared infrastructure in place. Artists work fully offline for security, with no internet on their workstations. That constraint broke the two asset libraries the studio most wanted to use: a near-complete **Quixel Megascans** collection, and a large set of Adobe **Substance** materials. Both sat on the network drive, and both were effectively unusable.
