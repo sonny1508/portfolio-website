@@ -64,3 +64,10 @@ education:
     end:          "2024"
     description:  |
       Validated proficiency in core Python concepts including data structures, OOP, functions, and exception handling. Credential issued by the Python Institute via Coursera.
+  - title:        "AI Fluency: Framework and Foundations"
+    organization: "Anthropic"
+    location:     "Anthropic"
+    start:        "2026"
+    end:          "2026"
+    description:  |
+      A beginner course by Anthropic teaching practical skills for collaborating with AI through the research-backed "4D Framework" of Delegation, Description, Discernment, and Diligence.

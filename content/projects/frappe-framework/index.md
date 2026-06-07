@@ -5,7 +5,7 @@ date: 2025-11-15
 draft: false
 weight: 4
 
-summary: "The studio's HRMS lived in Excel, project management was split between Trello and a brittle commissioned web app, and everyone agreed it was broken. I pitched, built, and now maintain a self-hosted Frappe + ERPNext deployment with a custom app layer that ties the whole studio's data together."
+summary: "The studio ran on Excel, Trello, and a brittle web app, and everyone agreed it was broken. I pitched, built, and now maintain a self-hosted Frappe + ERPNext deployment with a custom layer tying it all together."
 lede: "A self-hosted, deeply customized HRMS and project management platform that became the studio's central data hub."
 
 category: "platform"

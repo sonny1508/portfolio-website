@@ -5,8 +5,8 @@ date: 2026-02-15
 draft: false
 weight: 5
 
-summary: "Production used Synology Chat, management used Teams, and neither talked to the other. I deployed a forked Element + Synapse stack on **k3s**, customized it heavily in TypeScript, and unified the studio onto one self-hosted chat platform with Matrix integrations back into Frappe."
-lede: "A forked Element + Synapse deployment on **k3s**, rebuilt to unify production and management on one self-hosted chat platform."
+summary: "Production used Synology Chat, management used Teams, and neither talked to the other. I deployed a forked Element + Synapse stack on k3s and unified the studio onto one self-hosted Matrix platform with Frappe integrations."
+lede: "A forked Element + Synapse deployment on k3s, rebuilt to unify production and management on one self-hosted chat platform."
 
 category: "platform"
 tags: ["Element", "Matrix", "k3s"]
@@ -52,12 +52,16 @@ I also rebuilt the image-attachment renderer, which by default sends each upload
 The Poll component got similar treatment. Default Element leans toward anonymous voting, which is right for many use cases but not for studio decisions where transparency is the point. I rebuilt it to show who voted for what, allow undoing a vote before the poll closes, and surface full results visibility after closure. A more democratic poll for a context where hiding voter identity created more confusion than privacy.
  
 <!-- Visual 2: A side-by-side screenshot. Default Element on one side, the customized studio build on the other. Show whichever combination of branding, the reworked forwarding bubble, or the image gallery best communicates the depth of the changes. -->
+
+{{< figure src="studio_branding.png" caption="Element's frontend development for studio branding and custom features" >}}
  
 **CI/CD** was the other major area. The studio runs on Windows workstations, but I develop on Linux, so building the desktop app locally was not an option. I set up **GitHub Actions** workflows to build the desktop client on every release, push the artifacts to a dedicated update subdomain, and let Element's built-in **Squirrel** auto-update mechanism pull the latest version to every workstation. **PDQ Deploy** handles the initial install across the studio, Squirrel handles every update afterward. That pipeline took me from "I have heard of CI/CD" to "I have a working software distribution chain," which is a competency leap worth naming on its own.
  
 The last piece tied everything back to Frappe. I built a custom Matrix integration DocType that handles automatic onboarding: when a new employee is registered in Frappe and the integration is enabled, the system provisions their Matrix account, adds them to the relevant default rooms, and wires up the bot-to-user notification channel that Synology Chat needed manual key generation for. The webhook problem that defined the old setup is now a single checkbox.
  
 <!-- Visual 3: Either the GitHub Actions workflow run building the desktop client, the Frappe Matrix integration DocType provisioning a new user, or the Squirrel auto-update arriving on a workstation. Pick whichever best communicates "this is a full software distribution pipeline, not just a deployed app." -->
+
+{{< figure src="github_actions.png" caption="Github actions workflow for the latest desktop client" >}}
 
 ## Impact
 
